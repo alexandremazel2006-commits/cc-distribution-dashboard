@@ -115,8 +115,20 @@ a{ color:var(--accent); }
 }
 .nav button svg{ width:15px; height:15px; flex:0 0 auto; opacity:0.75; }
 .nav button:hover{ background:var(--surface-2); color:var(--ink); }
-.nav button.active{ background:var(--accent-wash); color:var(--accent); font-weight:600; }
+.nav button.active{ font-weight:600; }
 .nav button.active svg{ opacity:1; }
+.nav button:nth-child(1){ color:color-mix(in srgb, var(--series-1) 75%, var(--ink-2)); }
+.nav button:nth-child(2){ color:color-mix(in srgb, var(--series-2) 75%, var(--ink-2)); }
+.nav button:nth-child(3){ color:color-mix(in srgb, var(--series-3) 75%, var(--ink-2)); }
+.nav button:nth-child(4){ color:color-mix(in srgb, var(--series-5) 75%, var(--ink-2)); }
+.nav button:nth-child(5){ color:color-mix(in srgb, var(--series-8) 75%, var(--ink-2)); }
+.nav button:nth-child(6){ color:color-mix(in srgb, var(--series-7) 75%, var(--ink-2)); }
+.nav button:nth-child(1).active{ background:color-mix(in srgb, var(--series-1) 15%, transparent); color:var(--series-1); }
+.nav button:nth-child(2).active{ background:color-mix(in srgb, var(--series-2) 15%, transparent); color:var(--series-2); }
+.nav button:nth-child(3).active{ background:color-mix(in srgb, var(--series-3) 15%, transparent); color:var(--series-3); }
+.nav button:nth-child(4).active{ background:color-mix(in srgb, var(--series-5) 15%, transparent); color:var(--series-5); }
+.nav button:nth-child(5).active{ background:color-mix(in srgb, var(--series-8) 15%, transparent); color:var(--series-8); }
+.nav button:nth-child(6).active{ background:color-mix(in srgb, var(--series-7) 15%, transparent); color:var(--series-7); }
 
 .rail-foot{ margin-top:auto; padding:10px 6px 0; border-top:1px solid var(--border); font-size:11px; color:var(--ink-muted); }
 .rail-foot .row{ display:flex; justify-content:space-between; padding:3px 0; }
@@ -215,14 +227,20 @@ a{ color:var(--accent); }
 .card-head .hint{ font-size:11.5px; color:var(--ink-muted); }
 .card-note{ font-size:12px; color:var(--ink-muted); margin-top:10px; line-height:1.55; }
 
-.kpi{ padding:15px 16px; }
+.kpi{ padding:15px 16px 15px 19px; box-shadow: var(--shadow), inset 3.5px 0 0 0 var(--kpi-color, transparent); }
 .kpi .label{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.075em; color:var(--ink-muted); font-weight:600; }
-.kpi .value{ font-size:23px; font-weight:700; margin-top:7px; font-family:"Archivo",sans-serif; }
+.kpi .value{ font-size:23px; font-weight:700; margin-top:7px; font-family:"Archivo",sans-serif; color:var(--kpi-color, var(--ink)); }
 .kpi .delta{ font-size:11px; margin-top:5px; color:var(--ink-2); }
 .kpi .delta.bad{ color:var(--st-critical); }
 .kpi .delta.good{ color:var(--st-good); }
 
-.section-title{ font-size:20px; font-weight:800; margin:2px 0 4px; font-family:"Archivo",sans-serif; }
+.section-title{ font-size:20px; font-weight:800; margin:2px 0 4px; font-family:"Archivo",sans-serif; display:flex; align-items:center; gap:10px; }
+.section-title::before{ content:''; display:inline-block; width:11px; height:11px; border-radius:3px; flex:0 0 auto; background:var(--st-accent, transparent); }
+#view-markets .section-title{ --st-accent: var(--series-2); }
+#view-products .section-title{ --st-accent: var(--series-3); }
+#view-promos .section-title{ --st-accent: var(--series-5); }
+#view-returns .section-title{ --st-accent: var(--series-8); }
+#view-quality .section-title{ --st-accent: var(--series-7); }
 .section-lede{ font-size:13px; color:var(--ink-2); max-width:62ch; margin-bottom:18px; }
 
 /* legend */
@@ -773,6 +791,7 @@ function fmtPct(v,d){ d=d===undefined?1:d; if(!isFinite(v)) v=0;
   return v.toFixed(d)+'%';
 }
 function fmtInt(v){ return Math.round(v||0).toLocaleString(locale()); }
+function fmtPctSigned(v){ return '<span style="color:'+(v<0?'var(--st-critical)':'var(--st-good)')+'">'+fmtPct(v)+'</span>'; }
 function esc(s){ return String(s).replace(/[&<>]/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
 function safeDiv(a,b){ return b? a/b : 0; }
 
@@ -1179,16 +1198,16 @@ function renderOverview(lines, returns){
   var retValue=0, retUnits=0; returns.forEach(function(r){ retValue+=r[R_VALUE]; retUnits+=r[R_UNITS]; });
 
   var kpis = [
-    {label:t('kpiNetRevenue'), value: fmtEURc(revenue), delta: tf('dOrders',{n:fmtInt(orderSet.size)})},
-    {label:t('kpiNetMargin'), value: fmtEURc(margin), delta: tf('dOfRevenue',{p:fmtPct(safeDiv(margin,revenue)*100)})},
-    {label:t('kpiAvgBasket'), value: fmtEURfull(safeDiv(revenue,orderSet.size)), delta: tf('dUnitsSold',{n:fmtInt(units)})},
-    {label:t('kpiReturnRateValue'), value: fmtPct(safeDiv(retValue,revenue)*100), delta: tf('dReturned',{v:fmtEURc(retValue)}), cls:'bad'},
-    {label:t('kpiReturnRateUnits'), value: fmtPct(safeDiv(retUnits,units)*100), delta: tf('dUnits',{n:fmtInt(retUnits)})},
-    {label:t('kpiMarketsIncluded'), value: state.markets.size+' / 6', delta: monthLabel(MONTHS[state.dateFrom])+' → '+monthLabel(MONTHS[state.dateTo])}
+    {label:t('kpiNetRevenue'), value: fmtEURc(revenue), delta: tf('dOrders',{n:fmtInt(orderSet.size)}), color:'var(--series-1)'},
+    {label:t('kpiNetMargin'), value: fmtEURc(margin), delta: tf('dOfRevenue',{p:fmtPct(safeDiv(margin,revenue)*100)}), color:'var(--series-6)'},
+    {label:t('kpiAvgBasket'), value: fmtEURfull(safeDiv(revenue,orderSet.size)), delta: tf('dUnitsSold',{n:fmtInt(units)}), color:'var(--series-7)'},
+    {label:t('kpiReturnRateValue'), value: fmtPct(safeDiv(retValue,revenue)*100), delta: tf('dReturned',{v:fmtEURc(retValue)}), cls:'bad', color:'var(--st-critical)'},
+    {label:t('kpiReturnRateUnits'), value: fmtPct(safeDiv(retUnits,units)*100), delta: tf('dUnits',{n:fmtInt(retUnits)}), color:'var(--series-5)'},
+    {label:t('kpiMarketsIncluded'), value: state.markets.size+' / 6', delta: monthLabel(MONTHS[state.dateFrom])+' → '+monthLabel(MONTHS[state.dateTo]), color:'var(--series-3)'}
   ];
   var row=document.getElementById('kpiRow'); row.innerHTML='';
   kpis.forEach(function(kk){
-    var c=document.createElement('div'); c.className='card kpi';
+    var c=document.createElement('div'); c.className='card kpi'; c.style.setProperty('--kpi-color', kk.color);
     c.innerHTML='<div class="label">'+kk.label+'</div><div class="value tabular">'+kk.value+'</div><div class="delta '+(kk.cls||'')+'">'+kk.delta+'</div>';
     row.appendChild(c);
   });
@@ -1277,12 +1296,12 @@ function renderMarkets(lines, returns){
 
   var cols = [
     {label:t('mktColMarket'), mono:true}, {label:t('mktColRevenue'), num:true, fmt:fmtEURfull},
-    {label:t('mktColMarginPct'), num:true, fmt:function(v){return fmtPct(v);}},
+    {label:t('mktColMarginPct'), num:true, fmt:fmtPctSigned},
     {label:t('mktColBasket'), num:true, fmt:fmtEURfull},
     {label:t('mktColOrders'), num:true, fmt:fmtInt},
     {label:t('mktColReturnPct'), num:true, fmt:function(v){return fmtPct(v);}},
-    {label:t('mktColLosses'), num:true, fmt:fmtEURfull},
-    {label:t('mktColLossEst'), num:true, fmt:fmtEURfull}
+    {label:t('mktColLosses'), num:true, fmt:function(v){return '<span style="color:var(--st-critical)">'+fmtEURfull(v)+'</span>';}},
+    {label:t('mktColLossEst'), num:true, fmt:function(v){return '<span style="color:var(--st-critical)">'+fmtEURfull(v)+'</span>';}}
   ];
   var rows = activeMarkets.map(function(c){
     var a=agg[c]; var r=retAgg[c];
@@ -1377,7 +1396,7 @@ function renderProducts(lines){
   var cols=[
     {label:t('colSku'), mono:true}, {label:t('colProduct')}, {label:t('colFamily'), fmt:function(v){return esc(famName(v));}},
     {label:t('colRevenue'), num:true, fmt:fmtEURfull}, {label:t('colUnits'), num:true, fmt:fmtInt},
-    {label:t('colMargin'), num:true, fmt:fmtEURfull}, {label:t('colMarginPct'), num:true, fmt:function(v){return fmtPct(v);}}
+    {label:t('colMargin'), num:true, fmt:fmtEURfull}, {label:t('colMarginPct'), num:true, fmt:fmtPctSigned}
   ];
   var rows = filteredSkuRows.map(function(r){
     var mp = r.rev? (100*r.margin/r.rev):0;
@@ -1457,14 +1476,14 @@ function renderReturns(lines, returns){
   var retValue=0, retUnits=0; returns.forEach(function(r){ retValue+=r[R_VALUE]; retUnits+=r[R_UNITS]; });
   var dq = DATA.data_quality;
   var kpis=[
-    {label:t('kpiReturnedValueFiltered'), value:fmtEURc(retValue)},
-    {label:t('kpiUnitsReturned'), value:fmtInt(retUnits)},
-    {label:t('kpiRateValue'), value:fmtPct(safeDiv(retValue, lines.reduce(function(a,r){return a+r[L_NET];},0))*100)},
-    {label:t('kpiReturnLines'), value:fmtInt(returns.length)+' / '+fmtInt(dq.returns_clean_rows)}
+    {label:t('kpiReturnedValueFiltered'), value:fmtEURc(retValue), color:'var(--st-critical)'},
+    {label:t('kpiUnitsReturned'), value:fmtInt(retUnits), color:'var(--series-5)'},
+    {label:t('kpiRateValue'), value:fmtPct(safeDiv(retValue, lines.reduce(function(a,r){return a+r[L_NET];},0))*100), color:'var(--series-2)'},
+    {label:t('kpiReturnLines'), value:fmtInt(returns.length)+' / '+fmtInt(dq.returns_clean_rows), color:'var(--series-7)'}
   ];
   var row=document.getElementById('retKpiRow'); row.innerHTML='';
   kpis.forEach(function(kk){
-    var c=document.createElement('div'); c.className='card kpi';
+    var c=document.createElement('div'); c.className='card kpi'; c.style.setProperty('--kpi-color', kk.color);
     c.innerHTML='<div class="label">'+kk.label+'</div><div class="value tabular">'+kk.value+'</div>';
     row.appendChild(c);
   });
@@ -1506,14 +1525,14 @@ function renderReturns(lines, returns){
 function renderQuality(){
   var dq = DATA.data_quality;
   var stats=[
-    {label:t('dqStatOrderLines'), value:fmtInt(dq.total_order_lines)},
-    {label:t('dqStatReturnsRawNet'), value:fmtInt(dq.returns_raw_rows)+' → '+fmtInt(dq.returns_clean_rows)},
-    {label:t('dqStatDuplicatesRemoved'), value:fmtInt(dq.returns_exact_duplicates_removed)},
-    {label:t('dqStatOrphanJoins'), value:'0'}
+    {label:t('dqStatOrderLines'), value:fmtInt(dq.total_order_lines), color:'var(--series-1)'},
+    {label:t('dqStatReturnsRawNet'), value:fmtInt(dq.returns_raw_rows)+' → '+fmtInt(dq.returns_clean_rows), color:'var(--series-2)'},
+    {label:t('dqStatDuplicatesRemoved'), value:fmtInt(dq.returns_exact_duplicates_removed), color:'var(--st-warn)'},
+    {label:t('dqStatOrphanJoins'), value:'0', color:'var(--st-good)'}
   ];
   var row=document.getElementById('dqStatRow'); row.innerHTML='';
   stats.forEach(function(s){
-    var c=document.createElement('div'); c.className='card kpi';
+    var c=document.createElement('div'); c.className='card kpi'; c.style.setProperty('--kpi-color', s.color);
     c.innerHTML='<div class="label">'+s.label+'</div><div class="value tabular" style="font-size:19px;">'+s.value+'</div>';
     row.appendChild(c);
   });
