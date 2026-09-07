@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Six Markets, One Ledger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -125,10 +130,19 @@ a{ color:var(--accent); }
 }
 .topbar h2{ font-size:19px; margin:0; font-weight:700; }
 .topbar .tsub{ font-size:12px; color:var(--ink-muted); margin-top:2px; }
+.topbar-right{ display:flex; align-items:center; gap:10px; flex:0 0 auto; }
 .range-chip{
   font-size:11.5px; color:var(--ink-2); background:var(--surface); border:1px solid var(--border);
   padding:6px 11px; border-radius:20px; display:flex; align-items:center; gap:6px;
 }
+.lang-switch{
+  display:flex; align-items:center; border:1px solid var(--border); border-radius:20px; padding:3px; background:var(--surface); gap:2px;
+}
+.lang-btn{
+  all:unset; cursor:pointer; font-size:11px; font-weight:700; letter-spacing:0.02em; padding:5px 10px; border-radius:16px; color:var(--ink-muted);
+}
+.lang-btn:hover{ color:var(--ink); }
+.lang-btn.active{ background:var(--ink); color:var(--page); }
 /* ============ Filter bar ============ */
 .filterbar{
   position:sticky; top:57px; z-index:4; background:var(--page);
@@ -311,26 +325,28 @@ footer.credits a{ color:var(--ink-2); }
 /* also guard against the [hidden] cascade bug for any renderer that doesn't inject a reset */
 [hidden]{ display:none !important; }
 </style>
+</head>
+<body>
 <div id="ttip"></div>
 <div class="shell">
   <nav class="rail">
     <div class="brand">
       <div class="eyebrow">C&amp;C Distribution</div>
       <h1>Six Markets,<br>One Ledger</h1>
-      <div class="sub">2021&ndash;2024 &middot; consolidated &amp; reconciled</div>
+      <div class="sub" id="brandSub">2021&ndash;2024 &middot; consolidated &amp; reconciled</div>
     </div>
     <div class="nav" id="navlist">
-      <button data-view="overview" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="17" y="3" width="4" height="17" rx="1"/></svg>Overview</button>
-      <button data-view="markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 5.9 4 9s-1.5 6.4-4 9c-2.5-2.6-4-5.9-4-9s1.5-6.4 4-9z"/></svg>Markets</button>
-      <button data-view="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg>Products</button>
-      <button data-view="promos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 12.3L12 3.7 4 4l-.3 8 8.6 8.6a1 1 0 0 0 1.4 0l6.9-6.9a1 1 0 0 0 0-1.4z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>Promotions</button>
-      <button data-view="returns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Returns</button>
-      <button data-view="quality"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>Data quality</button>
+      <button data-view="overview" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="17" y="3" width="4" height="17" rx="1"/></svg><span id="navOverview">Overview</span></button>
+      <button data-view="markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 5.9 4 9s-1.5 6.4-4 9c-2.5-2.6-4-5.9-4-9s1.5-6.4 4-9z"/></svg><span id="navMarkets">Markets</span></button>
+      <button data-view="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg><span id="navProducts">Products</span></button>
+      <button data-view="promos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 12.3L12 3.7 4 4l-.3 8 8.6 8.6a1 1 0 0 0 1.4 0l6.9-6.9a1 1 0 0 0 0-1.4z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span id="navPromos">Promotions</span></button>
+      <button data-view="returns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span id="navReturns">Returns</span></button>
+      <button data-view="quality"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span id="navQuality">Data quality</span></button>
     </div>
     <div class="rail-foot">
-      <div class="row"><span>Lignes commande</span><span class="mono tabular" id="f-lines">&mdash;</span></div>
-      <div class="row"><span>Retours (dédupliqués)</span><span class="mono tabular" id="f-returns">&mdash;</span></div>
-      <div class="row"><span>Période</span><span class="mono" id="f-range">&mdash;</span></div>
+      <div class="row"><span id="railLinesLabel">Order lines</span><span class="mono tabular" id="f-lines">&mdash;</span></div>
+      <div class="row"><span id="railReturnsLabel">Returns (deduplicated)</span><span class="mono tabular" id="f-returns">&mdash;</span></div>
+      <div class="row"><span id="railPeriodLabel">Period</span><span class="mono" id="f-range">&mdash;</span></div>
     </div>
   </nav>
 
@@ -338,45 +354,51 @@ footer.credits a{ color:var(--ink-2); }
     <div class="topbar">
       <div>
         <h2 id="pagetitle">Overview</h2>
-        <div class="tsub" id="pagesub">Chiffre d'affaires net consolidé, six march&eacute;s, EUR</div>
+        <div class="tsub" id="pagesub">Consolidated net revenue, six markets, EUR</div>
       </div>
-      <div class="range-chip mono" id="topRange">2021&ndash;2024</div>
+      <div class="topbar-right">
+        <div class="range-chip mono" id="topRange">2021&ndash;2024</div>
+        <div class="lang-switch" id="langSwitch">
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+          <button type="button" class="lang-btn" data-lang="lv">LV</button>
+        </div>
+      </div>
     </div>
 
     <div class="filterbar">
       <div class="fb-row fb-primary">
         <div class="fb-group">
-          <span class="fb-label">March&eacute;</span>
+          <span class="fb-label" id="fLabelMarket">Market</span>
           <div class="chips" id="fMarket"></div>
         </div>
         <div class="fb-group">
-          <span class="fb-label">Segment</span>
+          <span class="fb-label" id="fLabelSegment">Segment</span>
           <div class="chips" id="fSegment"></div>
         </div>
         <div class="fb-group fb-grow">
-          <span class="fb-label">P&eacute;riode &mdash; <span id="fDateLabel" class="mono"></span></span>
+          <span class="fb-label"><span id="fLabelPeriod">Period</span> &mdash; <span id="fDateLabel" class="mono"></span></span>
           <div class="range-slider" id="fDateSlider">
             <div class="rs-track"></div>
             <div class="rs-range" id="rsRange"></div>
-            <input type="range" id="rsFrom" min="0" max="48" value="0" step="1" aria-label="Mois de d&eacute;but">
-            <input type="range" id="rsTo" min="0" max="48" value="48" step="1" aria-label="Mois de fin">
+            <input type="range" id="rsFrom" min="0" max="48" value="0" step="1" aria-label="Start month">
+            <input type="range" id="rsTo" min="0" max="48" value="48" step="1" aria-label="End month">
           </div>
         </div>
-        <button class="fb-more" id="fMoreBtn" aria-expanded="false">+ Filtres</button>
-        <button class="fb-reset" id="fResetBtn">R&eacute;initialiser</button>
+        <button class="fb-more" id="fMoreBtn" aria-expanded="false">+ Filters</button>
+        <button class="fb-reset" id="fResetBtn">Reset</button>
       </div>
-      <div class="fb-hint">Clic sur une valeur (chip, barre ou point de l&eacute;gende) = filtrer dessus ; reclic = en ajouter d'autres ou revenir &agrave; tout.</div>
+      <div class="fb-hint" id="fbHint">Click a value (chip, bar or legend dot) to filter on it; click again to add more or return to all.</div>
       <div class="fb-row fb-secondary" id="fSecondary" hidden>
         <div class="fb-group">
-          <span class="fb-label">Canal</span>
+          <span class="fb-label" id="fLabelChannel">Channel</span>
           <div class="chips" id="fChannel"></div>
         </div>
         <div class="fb-group">
-          <span class="fb-label">Famille</span>
+          <span class="fb-label" id="fLabelFamily">Family</span>
           <div class="chips" id="fFamily"></div>
         </div>
         <div class="fb-group">
-          <span class="fb-label">Promotion</span>
+          <span class="fb-label" id="fLabelPromo">Promotion</span>
           <select class="fb-select" id="fPromo"></select>
         </div>
       </div>
@@ -392,25 +414,25 @@ footer.credits a{ color:var(--ink-2); }
         <div class="grid g-main-side" style="margin-bottom:14px;">
           <div class="card">
             <div class="card-head">
-              <h3>Chiffre d'affaires net mensuel &mdash; tous march&eacute;s</h3>
-              <span class="hint">EUR, hors TVA, converti</span>
+              <h3 id="ovLineTitle">Net revenue by month &mdash; all markets</h3>
+              <span class="hint" id="ovLineHint">EUR, excl. VAT, converted</span>
             </div>
             <div class="legend" id="ovLegend"></div>
             <div id="ovLine"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Chiffre d'affaires par march&eacute;</h3><span class="hint">cliquer pour filtrer</span></div>
+            <div class="card-head"><h3 id="ovByMarketTitle">Revenue by market</h3><span class="hint" id="ovByMarketHint">click to filter</span></div>
             <div class="barlist" id="ovByMarket"></div>
           </div>
         </div>
 
         <div class="grid g-2">
           <div class="card">
-            <div class="card-head"><h3>Par segment client</h3><span class="hint">cliquer pour filtrer</span></div>
+            <div class="card-head"><h3 id="ovBySegmentTitle">By customer segment</h3><span class="hint" id="ovBySegmentHint">click to filter</span></div>
             <div class="barlist" id="ovBySegment"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Par canal de vente</h3><span class="hint">cliquer pour filtrer</span></div>
+            <div class="card-head"><h3 id="ovByChannelTitle">By sales channel</h3><span class="hint" id="ovByChannelHint">click to filter</span></div>
             <div class="barlist" id="ovByChannel"></div>
           </div>
         </div>
@@ -418,59 +440,65 @@ footer.credits a{ color:var(--ink-2); }
 
       <!-- ===================== MARKETS ===================== -->
       <section class="view" id="view-markets">
-        <div class="section-title">Six march&eacute;s, quatre ERP</div>
-        <p class="section-lede">Baltique &amp; Allemagne facturaient en EUR, Pologne en PLN, Tch&eacute;quie en CZK &mdash; et l'Allemagne en TTC quand les autres sont en HT. Tout ci-dessous est ramen&eacute; &agrave; l'EUR net, comparable march&eacute; &agrave; march&eacute;.</p>
+        <div class="section-title" id="mktSectionTitle">Six markets, four ERPs</div>
+        <p class="section-lede" id="mktSectionLede">Baltics &amp; Germany billed in EUR, Poland in PLN, Czechia in CZK &mdash; and Germany VAT-inclusive while the others are ex-VAT. Everything below is normalized to net EUR, comparable market to market.</p>
 
         <div class="card" style="margin-bottom:14px;">
-          <div class="card-head"><h3>Tendance mensuelle par march&eacute;</h3><span class="hint">cliquer la l&eacute;gende pour isoler un march&eacute;</span></div>
+          <div class="card-head"><h3 id="mktLineTitle">Monthly trend by market</h3><span class="hint" id="mktLineHint">click the legend to isolate a market</span></div>
           <div class="legend" id="mktLegend"></div>
           <div id="mktLine"></div>
         </div>
 
         <div class="card" style="margin-bottom:14px;">
-          <div class="card-head"><h3>Tableau des march&eacute;s</h3><span class="hint">cliquer une ligne pour le d&eacute;tail</span></div>
+          <div class="card-head"><h3 id="mktTableTitle">Market table</h3><span class="hint" id="mktTableHint">click a row for detail &middot; includes losses</span></div>
           <div class="twrap"><table id="mktTable"></table></div>
+          <div class="card-note" id="mktLossesNote"></div>
         </div>
 
-        <div class="grid g-2">
+        <div class="grid g-3">
           <div class="card">
-            <div class="card-head"><h3>Mix segment &mdash; <span id="mktDetailName1">Pologne</span></h3></div>
+            <div class="card-head"><h3><span id="mktMixSegPrefix">Segment mix</span> &mdash; <span id="mktDetailName1">Poland</span></h3></div>
             <div class="legend" id="segLegend"></div>
             <div id="mktSegStack"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Mix canal &mdash; <span id="mktDetailName2">Pologne</span></h3></div>
+            <div class="card-head"><h3><span id="mktMixChPrefix">Channel mix</span> &mdash; <span id="mktDetailName2">Poland</span></h3></div>
             <div class="legend" id="chLegend"></div>
             <div id="mktChStack"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3><span id="mktMixReasonPrefix">Return reasons</span> &mdash; <span id="mktDetailName3">Poland</span></h3></div>
+            <div class="legend" id="reasonLegend"></div>
+            <div id="mktReasonStack"></div>
           </div>
         </div>
       </section>
 
       <!-- ===================== PRODUCTS ===================== -->
       <section class="view" id="view-products">
-        <div class="section-title">Familles &amp; r&eacute;f&eacute;rences</div>
-        <p class="section-lede">27 SKU du Mac aux coques en silicone. La marge suit la famille de produit, pas le chiffre d'affaires : les accessoires et services pèsent peu au CA mais portent l'essentiel de la marge.</p>
+        <div class="section-title" id="prodSectionTitle">Families &amp; SKUs</div>
+        <p class="section-lede" id="prodSectionLede">27 SKUs from the Mac line to silicone cases. Margin follows the product family, not revenue: accessories and services weigh little in revenue but carry most of the margin.</p>
 
         <div class="grid g-2" style="margin-bottom:14px;">
           <div class="card">
-            <div class="card-head"><h3>CA par famille</h3><span class="hint">% = marge sur CA &middot; cliquer pour filtrer</span></div>
+            <div class="card-head"><h3 id="famRevenueTitle">Revenue by family</h3><span class="hint" id="famRevenueHint">% = margin on revenue &middot; click to filter</span></div>
             <div class="barlist" id="famRevenue"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Marge par famille</h3><span class="hint">EUR, m&ecirc;me ordre</span></div>
+            <div class="card-head"><h3 id="famMarginTitle">Margin by family</h3><span class="hint" id="famMarginHint">EUR, same order</span></div>
             <div class="barlist" id="famMargin"></div>
           </div>
         </div>
 
         <div class="card" style="margin-bottom:14px;">
-          <div class="card-head"><h3>Top 12 r&eacute;f&eacute;rences par CA</h3></div>
+          <div class="card-head"><h3 id="topProductsTitle">Top 12 SKUs by revenue</h3></div>
           <div class="barlist" id="topProducts"></div>
         </div>
 
         <div class="card">
           <div class="card-head">
-            <h3 id="prodTableTitle">Les 27 SKU</h3>
-            <input type="search" class="fb-search" id="prodSearch" placeholder="Filtrer par nom ou SKU&hellip;">
+            <h3 id="prodTableTitle">All 27 SKUs</h3>
+            <input type="search" class="fb-search" id="prodSearch" placeholder="Filter by name or SKU&hellip;">
           </div>
           <div class="twrap"><table id="prodTable"></table></div>
         </div>
@@ -478,58 +506,58 @@ footer.credits a{ color:var(--ink-2); }
 
       <!-- ===================== PROMOS ===================== -->
       <section class="view" id="view-promos">
-        <div class="section-title">Promotions &amp; campagnes</div>
-        <p class="section-lede">13 codes promo, 7 campagnes marketing trac&eacute;es. Tous les codes ont &eacute;t&eacute; utilis&eacute;s dans leur fen&ecirc;tre de validit&eacute; &mdash; mais certains ont circul&eacute; hors des march&eacute;s cibl&eacute;s par la campagne correspondante (voir note).</p>
+        <div class="section-title" id="promoSectionTitle">Promotions &amp; campaigns</div>
+        <p class="section-lede" id="promoSectionLede">13 promo codes, 7 tracked marketing campaigns. Every code was used within its validity window &mdash; but some circulated outside the markets targeted by the matching campaign (see note).</p>
 
         <div class="grid g-main-side" style="margin-bottom:14px;">
           <div class="card">
-            <div class="card-head"><h3>CA par code promo</h3><span class="hint">cliquer pour filtrer &middot; sans promo : <b id="noPromoRev" class="tabular"></b></span></div>
+            <div class="card-head"><h3 id="promoRevenueTitle">Revenue by promo code</h3><span class="hint"><span id="promoRevenueHintPrefix">click to filter &middot; no promo:</span> <b id="noPromoRev" class="tabular"></b></span></div>
             <div class="barlist" id="promoRevenue"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Remise accord&eacute;e</h3><span class="hint">EUR net cumul&eacute;</span></div>
+            <div class="card-head"><h3 id="promoDiscountTitle">Discount given</h3><span class="hint" id="promoDiscountHint">net EUR, cumulative</span></div>
             <div class="barlist" id="promoDiscount"></div>
           </div>
         </div>
 
         <div class="card" style="margin-bottom:14px;">
-          <div class="card-head"><h3>D&eacute;pense vs CA attribu&eacute; &mdash; campagnes cibl&eacute;es</h3><span class="hint">ROAS = CA attribu&eacute; / d&eacute;pense</span></div>
+          <div class="card-head"><h3 id="campTitle">Spend vs attributed revenue &mdash; targeted campaigns</h3><span class="hint" id="campHint">ROAS = attributed revenue / spend</span></div>
           <div class="legend" id="campLegend"></div>
           <div id="campGroups"></div>
           <div class="card-note" id="campNote"></div>
         </div>
 
         <div class="card">
-          <div class="card-head"><h3>Table des codes promo</h3></div>
+          <div class="card-head"><h3 id="promoTableTitle">Promo code table</h3></div>
           <div class="twrap"><table id="promoTable"></table></div>
         </div>
       </section>
 
       <!-- ===================== RETURNS ===================== -->
       <section class="view" id="view-returns">
-        <div class="section-title">Retours</div>
-        <p class="section-lede">3&nbsp;917 lignes de retour brutes &rarr; 107 doublons exacts retir&eacute;s &rarr; 3&nbsp;810 retours r&eacute;els, un par unit&eacute;. Le taux de retour ci-dessous est calcul&eacute; sur les donn&eacute;es d&eacute;doublonn&eacute;es.</p>
+        <div class="section-title" id="retSectionTitle">Returns</div>
+        <p class="section-lede" id="retSectionLede">3,917 raw return lines &rarr; 107 exact duplicates removed &rarr; 3,810 real returns, one per unit. The return rate below is computed on the deduplicated data.</p>
 
         <div class="grid g-kpi" id="retKpiRow" style="margin-bottom:14px; grid-template-columns:repeat(4,1fr);"></div>
 
         <div class="grid g-main-side" style="margin-bottom:14px;">
           <div class="card">
-            <div class="card-head"><h3>Valeur retourn&eacute;e par mois</h3></div>
+            <div class="card-head"><h3 id="retLineTitle">Returned value by month</h3></div>
             <div id="retLine"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Taux de retour par march&eacute;</h3><span class="hint">% valeur</span></div>
+            <div class="card-head"><h3 id="retByMarketTitle">Return rate by market</h3><span class="hint" id="retByMarketHint">% value</span></div>
             <div class="barlist" id="retByMarket"></div>
           </div>
         </div>
 
         <div class="grid g-2">
           <div class="card">
-            <div class="card-head"><h3>Par motif</h3></div>
+            <div class="card-head"><h3 id="retByReasonTitle">By reason</h3></div>
             <div class="barlist" id="retByReason"></div>
           </div>
           <div class="card">
-            <div class="card-head"><h3>Par famille de produit</h3></div>
+            <div class="card-head"><h3 id="retByFamilyTitle">By product family</h3></div>
             <div class="barlist" id="retByFamily"></div>
           </div>
         </div>
@@ -537,8 +565,8 @@ footer.credits a{ color:var(--ink-2); }
 
       <!-- ===================== DATA QUALITY ===================== -->
       <section class="view" id="view-quality">
-        <div class="section-title">Ce qu'on a trouv&eacute; en nettoyant</div>
-        <p class="section-lede">Neuf extraits, quatre syst&egrave;mes, aucun r&eacute;concili&eacute; au d&eacute;part. Chaque anomalie ci-dessous a &eacute;t&eacute; v&eacute;rifi&eacute;e par recalcul (prix &times; quantit&eacute; &times; (1&minus;remise) = montant net) avant correction &mdash; rien n'a &eacute;t&eacute; corrig&eacute; &agrave; l'oeil.</p>
+        <div class="section-title" id="qualitySectionTitle">What we found while cleaning</div>
+        <p class="section-lede" id="qualitySectionLede">Nine extracts, four systems, none reconciled to start. Every anomaly below was verified by recomputation (price &times; quantity &times; (1&minus;discount) = net amount) before correction &mdash; nothing was fixed by eye.</p>
 
         <div class="grid g-kpi" id="dqStatRow" style="margin-bottom:18px; grid-template-columns:repeat(4,1fr);"></div>
 
@@ -546,7 +574,7 @@ footer.credits a{ color:var(--ink-2); }
       </section>
 
     </div>
-    <footer class="credits">Donn&eacute;es source&nbsp;: <span class="mono">cc_distribution.xlsx</span> (9 feuilles, 22&nbsp;827 lignes de commande + 3&nbsp;917 lignes de retour). Conversion EUR via les taux moyens de p&eacute;riode fournis (PLN 4.42, CZK 24.85) ; TVA allemande (19&nbsp;%) retir&eacute;e pour comparabilit&eacute;. Tableau de bord g&eacute;n&eacute;r&eacute; avec Claude.</footer>
+    <footer class="credits" id="footerCredits">Source data: <span class="mono">cc_distribution.xlsx</span> (9 sheets, 22,827 order lines + 3,917 return lines). EUR conversion via the supplied period-average rates (PLN 4.42, CZK 24.85); German VAT (19%) removed for comparability. Dashboard generated with Claude.</footer>
   </div>
 </div>
 
@@ -558,16 +586,193 @@ var DATA = JSON.parse(document.getElementById('data-blob').textContent);
 var L_ORDER=0, L_DATE=1, L_COUNTRY=2, L_SEG=3, L_CH=4, L_SKU=5, L_QTY=6, L_PRICE=7, L_NET=8, L_MARGIN=9, L_PROMO=10;
 var R_ORDER=0, R_DATE=1, R_COUNTRY=2, R_SEG=3, R_CH=4, R_SKU=5, R_UNITS=6, R_VALUE=7, R_REASON=8;
 
+/* ================= I18N ================= */
+var LANG = 'en';
+try{ var saved = localStorage.getItem('ccdist_lang'); if(saved==='en'||saved==='lv') LANG = saved; }catch(e){}
+
+var I18N = {
+en: {
+  navOverview:'Overview', navMarkets:'Markets', navProducts:'Products', navPromos:'Promotions', navReturns:'Returns', navQuality:'Data quality',
+  brandSub:'2021–2024 · consolidated & reconciled',
+  railLines:'Order lines', railReturns:'Returns (deduplicated)', railPeriod:'Period',
+  titleOverview:'Overview', subOverview:'Consolidated net revenue, filtered live',
+  titleMarkets:'Markets', subMarkets:'Detail by country',
+  titleProducts:'Products', subProducts:'Families, SKUs, search',
+  titlePromos:'Promotions', subPromos:'Promo codes and marketing campaigns',
+  titleReturns:'Returns', subReturns:'Volume, value and reasons',
+  titleQuality:'Data quality', subQuality:'Cleaning method and anomalies found (raw data, unfiltered)',
+  fLabelMarket:'Market', fLabelSegment:'Segment', fLabelPeriod:'Period', fLabelChannel:'Channel', fLabelFamily:'Family', fLabelPromo:'Promotion',
+  fMoreOpen:'+ Filters', fMoreClose:'− Filters', fReset:'Reset',
+  fbHint:'Click a value (chip, bar or legend dot) to filter on it; click again to add more or return to all.',
+  promoOptAll:'All orders', promoOptWith:'With promo (any)', promoOptWithout:'No promo',
+  prodSearchPlaceholder:'Filter by name or SKU…',
+  ariaStartMonth:'Start month', ariaEndMonth:'End month',
+  ovLineTitle:'Net revenue by month — all markets', ovLineHint:'EUR, excl. VAT, converted',
+  ovByMarketTitle:'Revenue by market', ovByMarketHint:'click to filter',
+  ovBySegmentTitle:'By customer segment', ovBySegmentHint:'click to filter',
+  ovByChannelTitle:'By sales channel', ovByChannelHint:'click to filter',
+  kpiNetRevenue:'Net revenue (filtered)', kpiNetMargin:'Net margin', kpiAvgBasket:'Average basket',
+  kpiReturnRateValue:'Return rate (value)', kpiReturnRateUnits:'Return rate (units)', kpiMarketsIncluded:'Markets included',
+  dOrders:'{n} orders', dOfRevenue:'{p} of revenue', dUnitsSold:'{n} units sold', dReturned:'{v} returned', dUnits:'{n} units',
+  mktSectionTitle:'Six markets, four ERPs',
+  mktSectionLede:'Baltics & Germany billed in EUR, Poland in PLN, Czechia in CZK — and Germany VAT-inclusive while the others are ex-VAT. Everything below is normalized to net EUR, comparable market to market.',
+  mktLineTitle:'Monthly trend by market', mktLineHint:'click the legend to isolate a market',
+  mktTableTitle:'Market table', mktTableHint:'click a row for detail · includes losses',
+  mktMixSegPrefix:'Segment mix', mktMixChPrefix:'Channel mix', mktMixReasonPrefix:'Return reasons',
+  mktColMarket:'Market', mktColRevenue:'Net revenue', mktColMarginPct:'Margin %', mktColBasket:'Avg basket',
+  mktColOrders:'Orders', mktColReturnPct:'Return (value %)', mktColLosses:'Losses (€)', mktColLossEst:'Est. COGS lost (€)',
+  mktLossesNote:'<b>Losses</b> = total value refunded to customers. <b>Est. COGS lost</b> estimates the inventory cost forfeited on returns reported as “Damaged in transit” or “Faulty on arrival” — those units typically can’t be resold. Returns for other reasons (changed mind, wrong item, price found elsewhere, no reason given) are assumed recoverable through restocking: they reduce revenue but not necessarily margin.',
+  prodSectionTitle:'Families & SKUs',
+  prodSectionLede:'27 SKUs from the Mac line to silicone cases. Margin follows the product family, not revenue: accessories and services weigh little in revenue but carry most of the margin.',
+  famRevenueTitle:'Revenue by family', famRevenueHint:'% = margin on revenue · click to filter',
+  famMarginTitle:'Margin by family', famMarginHint:'EUR, same order',
+  topProductsTitle:'Top 12 SKUs by revenue',
+  prodAllSkus:'All {n} SKUs', prodSearchResults:'{n} result(s) for “{q}”',
+  promoSectionTitle:'Promotions & campaigns',
+  promoSectionLede:'13 promo codes, 7 tracked marketing campaigns. Every code was used within its validity window — but some circulated outside the markets targeted by the matching campaign (see note).',
+  promoRevenueTitle:'Revenue by promo code', promoRevenueHintPrefix:'click to filter · no promo:',
+  promoDiscountTitle:'Discount given', promoDiscountHint:'net EUR, cumulative',
+  campTitle:'Spend vs attributed revenue — targeted campaigns', campHint:'ROAS = attributed revenue / spend',
+  campLegendSpend:'Marketing spend', campLegendAttr:'Attributed revenue (same market + window, filters applied)',
+  gLabelSpend:'Spend', gLabelAttr:'Attributed rev.',
+  promoTableTitle:'Promo code table',
+  retSectionTitle:'Returns',
+  retSectionLede:'3,917 raw return lines → 107 exact duplicates removed → 3,810 real returns, one per unit. The return rate below is computed on the deduplicated data.',
+  retLineTitle:'Returned value by month',
+  retByMarketTitle:'Return rate by market', retByMarketHint:'% value',
+  retByReasonTitle:'By reason', retByFamilyTitle:'By product family',
+  kpiReturnedValueFiltered:'Returned value (filtered)', kpiUnitsReturned:'Units returned', kpiRateValue:'Rate (value)', kpiReturnLines:'Return lines',
+  qualitySectionTitle:'What we found while cleaning',
+  qualitySectionLede:'Nine extracts, four systems, none reconciled to start. Every anomaly below was verified by recomputation (price × quantity × (1−discount) = net amount) before correction — nothing was fixed by eye.',
+  dqStatOrderLines:'Order lines', dqStatReturnsRawNet:'Returns raw → net', dqStatDuplicatesRemoved:'Duplicates removed', dqStatOrphanJoins:'Orphan joins',
+  sevHigh:'Major — fixed', sevMedium:'Fixed', sevLow:'Minor', sevInfo:'Note',
+  colSku:'SKU', colProduct:'Product', colFamily:'Family', colRevenue:'Revenue', colUnits:'Units', colMargin:'Margin', colMarginPct:'Margin %',
+  colCode:'Code', colUses:'Uses', colRevenueGenerated:'Revenue generated', colDiscountGiven:'Discount given',
+  sumOrderLines:'order lines', sumOrders:'orders', sumReturns:'returns', sumMarkets:'markets', sumSegments:'segments', sumChannels:'channels', sumFamilies:'families',
+  noDataFilters:'No data for these filters.', noCampaignsFiltered:'No campaigns in the filtered period/markets.',
+  noRowsFilters:'No rows for these filters.', noMarketSelected:'No market selected.',
+  footerCredits:'Source data: <span class="mono">cc_distribution.xlsx</span> (9 sheets, 22,827 order lines + 3,917 return lines). EUR conversion via the supplied period-average rates (PLN 4.42, CZK 24.85); German VAT (19%) removed for comparability. Dashboard generated with Claude.'
+},
+lv: {
+  navOverview:'Pārskats', navMarkets:'Tirgi', navProducts:'Produkti', navPromos:'Akcijas', navReturns:'Atgriešana', navQuality:'Datu kvalitāte',
+  brandSub:'2021.–2024. g. · konsolidēts un saskaņots',
+  railLines:'Pasūtījumu rindas', railReturns:'Atgriešana (bez dublikātiem)', railPeriod:'Periods',
+  titleOverview:'Pārskats', subOverview:'Konsolidēts neto apgrozījums, filtrēts reālajā laikā',
+  titleMarkets:'Tirgi', subMarkets:'Detaļas pa valstīm',
+  titleProducts:'Produkti', subProducts:'Grupas, SKU, meklēšana',
+  titlePromos:'Akcijas', subPromos:'Akciju kodi un mārketinga kampaņas',
+  titleReturns:'Atgriešana', subReturns:'Apjoms, vērtība un iemesli',
+  titleQuality:'Datu kvalitāte', subQuality:'Tīrīšanas metode un atrastās anomālijas (nefiltrēti izejas dati)',
+  fLabelMarket:'Tirgus', fLabelSegment:'Segments', fLabelPeriod:'Periods', fLabelChannel:'Kanāls', fLabelFamily:'Grupa', fLabelPromo:'Akcija',
+  fMoreOpen:'+ Filtri', fMoreClose:'− Filtri', fReset:'Atiestatīt',
+  fbHint:'Noklikšķiniet uz vērtības (blāšķa, joslas vai leģendas punkta), lai filtrētu pēc tās; noklikšķiniet vēlreiz, lai pievienotu citas vai atgrieztos pie visa.',
+  promoOptAll:'Visi pasūtījumi', promoOptWith:'Ar akciju (jebkuru)', promoOptWithout:'Bez akcijas',
+  prodSearchPlaceholder:'Filtrēt pēc nosaukuma vai SKU…',
+  ariaStartMonth:'Sākuma mēnesis', ariaEndMonth:'Beigu mēnesis',
+  ovLineTitle:'Neto apgrozījums pēc mēneša — visi tirgi', ovLineHint:'EUR, bez PVN, konvertēts',
+  ovByMarketTitle:'Apgrozījums pēc tirgus', ovByMarketHint:'noklikšķiniet, lai filtrētu',
+  ovBySegmentTitle:'Pēc klientu segmenta', ovBySegmentHint:'noklikšķiniet, lai filtrētu',
+  ovByChannelTitle:'Pēc pārdošanas kanāla', ovByChannelHint:'noklikšķiniet, lai filtrētu',
+  kpiNetRevenue:'Neto apgrozījums (filtrēts)', kpiNetMargin:'Neto peļņa', kpiAvgBasket:'Vidējais grozs',
+  kpiReturnRateValue:'Atgriešanas līmenis (vērtība)', kpiReturnRateUnits:'Atgriešanas līmenis (vienības)', kpiMarketsIncluded:'Iekļautie tirgi',
+  dOrders:'{n} pasūtījumi', dOfRevenue:'{p} no apgrozījuma', dUnitsSold:'{n} pārdotas vienības', dReturned:'{v} atgriezts', dUnits:'{n} vienības',
+  mktSectionTitle:'Seši tirgi, četras ERP sistēmas',
+  mktSectionLede:'Baltija un Vācija rēķinus izraksta EUR, Polija — PLN, Čehija — CZK; un Vācijas cenas ir ar PVN, kamēr pārējās — bez. Viss turpmāk ir normalizēts uz neto EUR, lai tirgus būtu salīdzināms ar tirgu.',
+  mktLineTitle:'Ikmēneša tendence pēc tirgus', mktLineHint:'noklikšķiniet uz leģendas, lai izolētu tirgu',
+  mktTableTitle:'Tirgu tabula', mktTableHint:'noklikšķiniet uz rindas detaļām · ietver zaudējumus',
+  mktMixSegPrefix:'Segmentu sadalījums', mktMixChPrefix:'Kanālu sadalījums', mktMixReasonPrefix:'Atgriešanas iemesli',
+  mktColMarket:'Tirgus', mktColRevenue:'Neto apgrozījums', mktColMarginPct:'Peļņa %', mktColBasket:'Vidējais grozs',
+  mktColOrders:'Pasūtījumi', mktColReturnPct:'Atgr. (vērtība %)', mktColLosses:'Zaudējumi (€)', mktColLossEst:'Aplēstas zaud. izmaksas (€)',
+  mktLossesNote:'<b>Zaudējumi</b> = kopējā klientiem atmaksātā vērtība. <b>Aplēstās zaudētās izmaksas</b> novērtē preču pašizmaksu, kas zaudēta atgriešanām ar iemeslu “Bojāts pārvadāšanā” vai “Defekts saņemot” — šīs vienības parasti nevar pārdot atkārtoti. Citu iemeslu atgriešanas (pārdomāšana, nepareiza prece, lētāka cena citur, iemesls nav norādīts) uzskatāmas par atgūstamām, atkārtoti izliekot preces pārdošanā: tās samazina apgrozījumu, bet ne obligāti peļņu.',
+  prodSectionTitle:'Produktu grupas un SKU',
+  prodSectionLede:'27 SKU no Mac līnijas līdz silikona vāciņiem. Peļņa seko produktu grupai, nevis apgrozījumam: piederumi un pakalpojumi apgrozījumā sver maz, bet nodrošina lielāko daļu no peļņas.',
+  famRevenueTitle:'Apgrozījums pēc grupas', famRevenueHint:'% = peļņa no apgrozījuma · noklikšķiniet, lai filtrētu',
+  famMarginTitle:'Peļņa pēc grupas', famMarginHint:'EUR, tā pati kārtība',
+  topProductsTitle:'12 populārākie SKU pēc apgrozījuma',
+  prodAllSkus:'Visi {n} SKU', prodSearchResults:'{n} rezultāts(i) vaicājumam “{q}”',
+  promoSectionTitle:'Akcijas un kampaņas',
+  promoSectionLede:'13 akciju kodi, 7 izsekotas mārketinga kampaņas. Katrs kods izmantots savā derīguma periodā — taču daļi cirkulēja ārpus atbilstošās kampaņas mērķa tirgiem (skat. piezīmi).',
+  promoRevenueTitle:'Apgrozījums pēc akcijas koda', promoRevenueHintPrefix:'noklikšķiniet, lai filtrētu · bez akcijas:',
+  promoDiscountTitle:'Piešķirtā atlaide', promoDiscountHint:'neto EUR, kumulatīvi',
+  campTitle:'Izdevumi pret attiecināto apgrozījumu — mērķa kampaņas', campHint:'ROAS = attiecinātais apgrozījums / izdevumi',
+  campLegendSpend:'Mārketinga izdevumi', campLegendAttr:'Attiecinātais apgrozījums (tā pati tirgus + periods, piemēroti filtri)',
+  gLabelSpend:'Izdevumi', gLabelAttr:'Attiecināts apgr.',
+  promoTableTitle:'Akciju kodu tabula',
+  retSectionTitle:'Atgriešana',
+  retSectionLede:'3917 izejas atgriešanas rindas → 107 precīzi dublikāti noņemti → 3810 reālas atgriešanas, viena par vienību. Atgriešanas līmenis zemāk aprēķināts pēc datiem bez dublikātiem.',
+  retLineTitle:'Atgrieztā vērtība pēc mēneša',
+  retByMarketTitle:'Atgriešanas līmenis pēc tirgus', retByMarketHint:'% vērtība',
+  retByReasonTitle:'Pēc iemesla', retByFamilyTitle:'Pēc produktu grupas',
+  kpiReturnedValueFiltered:'Atgrieztā vērtība (filtrēta)', kpiUnitsReturned:'Atgrieztas vienības', kpiRateValue:'Līmenis (vērtība)', kpiReturnLines:'Atgriešanas rindas',
+  qualitySectionTitle:'Ko atradām, tīrīot datus',
+  qualitySectionLede:'Deviņi izvilkumi, četras sistēmas, sākumā neviena nesaskaņota. Katra anomālija zemāk tika pārbaudīta ar pārrēķināšanu (cena × daudzums × (1−atlaide) = neto summa) pirms labošanas — nekas nav labots pēc acs.',
+  dqStatOrderLines:'Pasūtījumu rindas', dqStatReturnsRawNet:'Atgriešanas: izejas → neto', dqStatDuplicatesRemoved:'Noņemti dublikāti', dqStatOrphanJoins:'Bāreņu savienojumi',
+  sevHigh:'Nopietna — labota', sevMedium:'Labota', sevLow:'Neliela', sevInfo:'Piezīme',
+  colSku:'SKU', colProduct:'Produkts', colFamily:'Grupa', colRevenue:'Apgrozījums', colUnits:'Vienības', colMargin:'Peļņa', colMarginPct:'Peļņa %',
+  colCode:'Kods', colUses:'Izmantojumi', colRevenueGenerated:'Radītais apgrozījums', colDiscountGiven:'Piešķirtā atlaide',
+  sumOrderLines:'pasūtījumu rindas', sumOrders:'pasūtījumi', sumReturns:'atgriešanas', sumMarkets:'tirgi', sumSegments:'segmenti', sumChannels:'kanāli', sumFamilies:'grupas',
+  noDataFilters:'Šiem filtriem nav datu.', noCampaignsFiltered:'Šajā periodā/tirgos nav kampaņu.',
+  noRowsFilters:'Šiem filtriem nav rindu.', noMarketSelected:'Nav izvēlēts neviens tirgus.',
+  footerCredits:'Datu avots: <span class="mono">cc_distribution.xlsx</span> (9 lapas, 22 827 pasūtījumu rindas + 3917 atgriešanas rindas). EUR konversīja pēc dotajiem perioda vidējiem kursiem (PLN 4.42, CZK 24.85); Vācijas PVN (19%) noņemts salīdzināmībai. Vizuālais paneļis veidots ar Claude.'
+}
+};
+function t(key){ var v=(I18N[LANG]&&I18N[LANG][key]); if(v===undefined) v=I18N.en[key]; return v===undefined?key:v; }
+function tf(key, vars){ var s=t(key); Object.keys(vars||{}).forEach(function(k){ s=s.split('{'+k+'}').join(vars[k]); }); return s; }
+
+var DQ_I18N = {
+en: [
+  {title:'Four different currencies depending on market', detail:'Baltics and Germany invoice in EUR; Poland in PLN (decimal comma); Czechia in CZK. Converted to EUR using the FX rates sheet (period-average rate, applied uniformly across 2021–2024, as documented in the workbook).'},
+  {title:'German prices include VAT, every other market is ex-VAT', detail:'Comparing each market’s first unit prices to the Products reference sheet, the Baltics, Poland and Czechia match the catalog price (ex-VAT) almost exactly, while Germany consistently shows catalog price × 1.19 (the German VAT rate). Normalized all markets to net EUR by dividing German amounts by 1.19.'},
+  {title:'Polish discount is stored in percentage points, not a fraction', detail:'Baltics, Czechia and Germany store the discount as a 0–0.5 fraction; Poland’s rabat_proc ranges 0–50 (whole percentage points). Divided by 100 to align units.'},
+  {title:'Hidden pack multiplier in Poland (krotnosc_opakowania)', detail:'The Polish net amount only recomputes correctly with quantity × multiplier × unit price × (1−discount). This multiplier also appears on non-“packable” items (e.g. MacBook), so it functions as a hidden quantity multiplier rather than genuine physical packaging. Applied as effective quantity.'},
+  {title:'Polish discount rate is rounded to a whole point before storage', detail:'561 of 6,889 Polish lines (~8%) don’t perfectly verify qty × price × (1−discount) = net amount, because rabat_proc is rounded to the nearest percentage point while wartosc_netto keeps full precision. Gaps are small (typically < 500 PLN, ~< €100) — the net amount, not the discount column, was treated as the source of truth.'},
+  {title:'107 lines exactly duplicated in returns', detail:'107 return records (same return_id and every field identical) were duplicated word-for-word in the Returns sheet. Removed before any volume or return-rate calculation.'},
+  {title:'Apparent “over-returns” came from the duplicates', detail:'Before deduplication, 22 order+SKU combinations showed more units returned than ordered. After removing the 107 exact duplicates (issue #6), all 22 cases resolve to plausible quantities — zero genuine over-return remains. A good example of why exact duplicates must be removed before any downstream quality check.'},
+  {title:'Returns are one line per unit, not per order', detail:'Returns must be aggregated by order_id+sku (or by order) before joining to order lines; a naive join on order_id alone would multiply order lines.'},
+  {title:'Some seasonal promo codes circulated outside their campaign’s scope', detail:'E.g. BACK2SCHOOL21/22 were used in CZ and DE years before those markets appear in the “back to school” rollout on the Campaigns sheet. All these uses remain within the promo code’s own validity window (no date error), but this revenue can’t be tied to any tracked marketing spend.'},
+  {title:'Zero-padded text identifiers, inconsistent formats', detail:'Czech order numbers are zero-padded to 9 digits and must stay text; formats differ by market (CC-LV-000001, PL/2021/00001, 000000001, DE-2021-000001). Read as text end-to-end; referential integrity checked clean (0 orphan returns, 0 unknown SKUs, 0 unknown promo codes) once IDs are kept as text.'},
+  {title:'Discount is capped at 50% of the line (business rule, not an error)', detail:'WELCOME10 grants €10 off per unit (or the local-currency equivalent), but on cheap accessories that would exceed a 50% discount, so it’s capped at exactly 50%. This explains the maximum value (0.5) of the discount column across all markets.'}
+],
+lv: [
+  {title:'Četras dažādas valūtas atkarībā no tirgus', detail:'Baltija un Vācija rēķinus izraksta EUR; Polija — PLN (decimāldaļskaitlis ar komatu); Čehija — CZK. Konvertēts uz EUR, izmantojot valūtas kursu lapu (perioda vidējais kurss, vienveidīgi piemērots 2021.–2024. gadam, kā norādīts darbgrāmatā).'},
+  {title:'Vācijas cenas ar PVN, visi pārējie tirgi — bez PVN', detail:'Salīdzinot katra tirgus pirmās vienības cenas ar Produktu atsauces lapu, Baltijas valstu, Polijas un Čehijas cenas gandrīz precīzi sakrīt ar kataloga cenu (bez PVN), savukārt Vācijas cena vienmēr atbilst kataloga cenai × 1,19 (Vācijas PVN likme). Visi tirgi normalizēti uz neto EUR, Vācijas summas dalot ar 1,19.'},
+  {title:'Polijas atlaide norādīta procentpunktos, nevis daļskaitlī', detail:'Baltija, Čehija un Vācija atlaidi glabā kā daļskaitli 0–0,5; Polijas rabat_proc ir robežās no 0 līdz 50 (veseli procentpunkti). Dalīts ar 100, lai saskaņotu vienības.'},
+  {title:'Slēpts iepakojuma reizinātājs Polijā (krotnosc_opakowania)', detail:'Polijas neto summa pareizi pārrēķinās tikai ar daudzums × reizinātājs × vienības cena × (1−atlaide). Šis reizinātājs parādās arī precēm, kas nav „iepakojamas“ (piem., MacBook), tāpēc tas darbojas kā slēpts daudzuma reizinātājs, nevis reāls fizisks iepakojums. Piemērots kā efektīvais daudzums.'},
+  {title:'Polijas atlaides likme pirms saglabāšanas noapaļota līdz veselam skaitlim', detail:'561 no 6889 Polijas rindām (~8%) precīzi neapstiprina daudzums × cena × (1−atlaide) = neto summa, jo rabat_proc ir noapaļots līdz tuvākajam procentpunktam, kamēr wartosc_netto saglabā pilnu precizitāti. Atšķirības ir nelielas (parasti < 500 PLN, ~< 100 EUR) — par patieso vērtību pieņemta neto summa, nevis atlaides kolonna.'},
+  {title:'107 pilnībā dublētas rindas atgriešanas datos', detail:'107 atgriešanas ieraksti (vienāds return_id un visi lauki identiski) bija vārds vārdā dublēti Atgriešanas lapā. Noņemti pirms jebkāda apjoma vai atgriešanas līmeņa aprēķina.'},
+  {title:'Šķietamā “pāratgriešana” radās dublikātu dēļ', detail:'Pirms dublikātu noņemšanas 22 pasūtījuma+SKU kombinācijās bija atgriezts vairāk vienību, nekā pasūtīts. Pēc 107 precīzo dublikātu noņemšanas (6. anomālija) visi 22 gadījumi atrisinās ticamos daudzumos — patiesas pāratgriešanas vairāk nav nevienas. Labs piemērs, kāpēc precīzie dublikāti jānoņem pirms jebkādas turpmākās datu kvalitātes pārbaudes.'},
+  {title:'Atgriešanas dati ir viena rinda uz vienību, nevis uz pasūtījumu', detail:'Atgriešanas dati jāapkopo pēc order_id+sku (vai pēc pasūtījuma) pirms savienošanas ar pasūtījumu rindām; naiva savienošana tikai pēc order_id sareizinātu pasūtījumu rindas.'},
+  {title:'Daži sezonālie akciju kodi tika izmantoti ārpus attiecīgās kampaņas tvēruma', detail:'Piemēram, BACK2SCHOOL21/22 tika izmantoti CZ un DE gadus pirms šie tirgi parādās Kampaņu lapas “atpakaļ uz skolu” izlaidumā. Visi šie lietojumi ir akcijas koda derīguma termiņā (datumu kļūdas nav), taču šo apgrozījumu nevar saistīt ne ar vienu izsekotu mārketinga izdevumu.'},
+  {title:'Teksta identifikatori ar nenozīmīgām nullēm, neviendabīgi formāti', detail:'Čehijas pasūtījumu numuri papildāti ar nullēm līdz 9 cipariem un jāglabā kā teksts; formāti atšķiras pa tirgiem (CC-LV-000001, PL/2021/00001, 000000001, DE-2021-000001). Nolasīti kā teksts no sākuma līdz beigām; atsauces integritāte pārbaudīta tīra (0 bāreņu atgriešanu, 0 nezināmu SKU, 0 nezināmu akciju kodu), ja identifikatori saglabāti kā teksts.'},
+  {title:'Atlaide ierobežota līdz 50% no rindas (biznesa noteikums, nevis kļūda)', detail:'WELCOME10 piešķir 10 EUR atlaidi par vienību (vai ekvivalentu vietējā valūtā), taču lētiem piederumiem tas pārsniegtu 50% atlaidi, tāpēc tā ierobežota tieši līdz 50%. Tas izskaidro atlaides kolonnas maksimālo vērtību (0,5) visos tirgos.'}
+]
+};
+
+var CAMPNOTE_I18N = {
+en: function(id, spend, accAttr){
+  return 'Campaign <b>'+esc(id)+'</b> (accessory push, no promo code) — spend '+fmtEURfull(spend)+', accessory revenue attributed within the targeted window/markets (current filters applied): '+fmtEURfull(accAttr)+'.<br>'+
+  'Several “Back to School” codes were also used in markets/years outside the matching tracked campaign’s scope (e.g. DE and CZ from 2021–2022, before their official rollout) — this revenue isn’t backed by any known spend, so it’s excluded from the ROAS above.';
+},
+lv: function(id, spend, accAttr){
+  return 'Kampaņa <b>'+esc(id)+'</b> (piederumu virzīšana, bez akcijas koda) — izdevumi '+fmtEURfull(spend)+', piederumu apgrozījums, kas attiecināts uz mērķa periodu/tirgiem (piemēroti pašreizējie filtri): '+fmtEURfull(accAttr)+'.<br>'+
+  'Vairāki “Back to School” kodi tika izmantoti arī tirgos/gados ārpus atbilstošās izsekotās kampaņas tvēruma (piem., DE un CZ jau 2021.–2022. gadā, pirms oficiālās ieviešanas) — šis apgrozījums nav saistīts ne ar vienu zināmu izdevumu, tāpēc nav iekļauts ROAS aprēķinā augstāk.';
+}
+};
+
 /* ---------- formatting ---------- */
+function locale(){ return LANG==='lv' ? 'lv-LV' : 'en-GB'; }
 function fmtEURc(v){
   var s = v<0?'-':''; v = Math.abs(v);
   if(v>=1e6) return s+'€'+(v/1e6).toFixed(2)+'M';
   if(v>=1e3) return s+'€'+(v/1e3).toFixed(1)+'K';
   return s+'€'+v.toFixed(0);
 }
-function fmtEURfull(v){ return '€'+Math.round(v).toLocaleString('fr-FR'); }
-function fmtPct(v,d){ d=d===undefined?1:d; if(!isFinite(v)) v=0; return v.toFixed(d).replace('.',',')+' %'; }
-function fmtInt(v){ return Math.round(v||0).toLocaleString('fr-FR'); }
+function fmtEURfull(v){ return '€'+Math.round(v).toLocaleString(locale()); }
+function fmtPct(v,d){ d=d===undefined?1:d; if(!isFinite(v)) v=0;
+  if(LANG==='lv') return v.toFixed(d).replace('.',',')+' %';
+  return v.toFixed(d)+'%';
+}
+function fmtInt(v){ return Math.round(v||0).toLocaleString(locale()); }
 function esc(s){ return String(s).replace(/[&<>]/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
 function safeDiv(a,b){ return b? a/b : 0; }
 
@@ -577,16 +782,36 @@ var SKU_INFO = {}; PRODUCTS.forEach(function(p){ SKU_INFO[p[0]] = {name:p[1], fa
 var FAMILY_ORDER = []; PRODUCTS.forEach(function(p){ if(FAMILY_ORDER.indexOf(p[2])===-1) FAMILY_ORDER.push(p[2]); });
 
 var MARKET_ORDER = ['LV','LT','EE','PL','CZ','DE'];
-var MARKET_NAME = {LV:'Lettonie',LT:'Lituanie',EE:'Estonie',PL:'Pologne',CZ:'Tchéquie',DE:'Allemagne'};
+var MARKET_NAME_I18N = {
+  en:{LV:'Latvia',LT:'Lithuania',EE:'Estonia',PL:'Poland',CZ:'Czechia',DE:'Germany'},
+  lv:{LV:'Latvija',LT:'Lietuva',EE:'Igaunija',PL:'Polija',CZ:'Čehija',DE:'Vācija'}
+};
+function mktName(c){ return (MARKET_NAME_I18N[LANG]&&MARKET_NAME_I18N[LANG][c]) || c; }
 var MARKET_COLOR = {}; MARKET_ORDER.forEach(function(c,i){ MARKET_COLOR[c] = 'var(--series-'+(i+1)+')'; });
 
 var SEGMENT_ORDER = ['Consumer','Business','Education','Reseller'];
+var SEGMENT_NAME_I18N = { en:{Consumer:'Consumer',Business:'Business',Education:'Education',Reseller:'Reseller'},
+  lv:{Consumer:'Patērētāji',Business:'Uzņēmumi',Education:'Izglītība',Reseller:'Tālākpārdevēji'} };
+function segName(s){ return (SEGMENT_NAME_I18N[LANG]&&SEGMENT_NAME_I18N[LANG][s]) || s; }
 var SEGMENT_COLOR = {}; SEGMENT_ORDER.forEach(function(c,i){ SEGMENT_COLOR[c]='var(--series-'+(i+1)+')'; });
 
 var CHANNEL_ORDER = ['Web shop','Retail store','B2B account','Marketplace'];
+var CHANNEL_NAME_I18N = { en:{'Web shop':'Web shop','Retail store':'Retail store','B2B account':'B2B account','Marketplace':'Marketplace'},
+  lv:{'Web shop':'Interneta veikals','Retail store':'Veikals','B2B account':'B2B konts','Marketplace':'Tirdzniecības platforma'} };
+function chName(c){ return (CHANNEL_NAME_I18N[LANG]&&CHANNEL_NAME_I18N[LANG][c]) || c; }
 var CHANNEL_COLOR = {}; CHANNEL_ORDER.forEach(function(c,i){ CHANNEL_COLOR[c]='var(--series-'+(i+1)+')'; });
 
+var FAMILY_NAME_I18N = { en:{Accessory:'Accessory',Audio:'Audio',Mac:'Mac',Service:'Service',Watch:'Watch',iPad:'iPad',iPhone:'iPhone'},
+  lv:{Accessory:'Piederumi',Audio:'Audio',Mac:'Mac',Service:'Pakalpojumi',Watch:'Watch',iPad:'iPad',iPhone:'iPhone'} };
+function famName(f){ return (FAMILY_NAME_I18N[LANG]&&FAMILY_NAME_I18N[LANG][f]) || f; }
 var FAMILY_COLOR = {}; FAMILY_ORDER.forEach(function(f,i){ FAMILY_COLOR[f]='var(--series-'+((i%8)+1)+')'; });
+
+var REASON_ORDER = ['Damaged in transit','Faulty on arrival','Wrong item shipped','Changed mind','Better price elsewhere','No reason given'];
+var UNSELLABLE_REASONS = {'Damaged in transit':true,'Faulty on arrival':true};
+var REASON_NAME_I18N = { en:{'Better price elsewhere':'Better price elsewhere','Changed mind':'Changed mind','Damaged in transit':'Damaged in transit','Faulty on arrival':'Faulty on arrival','No reason given':'No reason given','Wrong item shipped':'Wrong item shipped'},
+  lv:{'Better price elsewhere':'Lētāk citur','Changed mind':'Pārdomāja','Damaged in transit':'Bojāts pārvadāšanā','Faulty on arrival':'Defekts saņemot','No reason given':'Iemesls nav norādīts','Wrong item shipped':'Nosūtīta nepareiza prece'} };
+function reasonName(r){ return (REASON_NAME_I18N[LANG]&&REASON_NAME_I18N[LANG][r]) || r; }
+var REASON_COLOR = {}; REASON_ORDER.forEach(function(r,i){ REASON_COLOR[r]='var(--series-'+(i+1)+')'; });
 
 var PROMO_CODES = []; DATA.lines.forEach(function(r){ if(r[L_PROMO] && PROMO_CODES.indexOf(r[L_PROMO])===-1) PROMO_CODES.push(r[L_PROMO]); });
 PROMO_CODES.sort();
@@ -597,9 +822,12 @@ var minYm = DATA.date_min.slice(0,7), maxYm = DATA.date_max.slice(0,7);
 DATA.returns.forEach(function(r){ var ym=r[R_DATE].slice(0,7); if(ym<minYm) minYm=ym; if(ym>maxYm) maxYm=ym; });
 var MONTHS = []; (function(){ var cur=minYm; while(cur<=maxYm){ MONTHS.push(cur); cur=ymAdd(cur,1); } })();
 var MONTH_INDEX = {}; MONTHS.forEach(function(m,i){ MONTH_INDEX[m]=i; });
-var MONTHS_FR=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-function monthLabel(m){ var p=m.split('-'); return MONTHS_FR[parseInt(p[1],10)-1]+" '"+p[0].slice(2); }
-function monthLabelFull(m){ var p=m.split('-'); return MONTHS_FR[parseInt(p[1],10)-1]+' '+p[0]; }
+var MONTHS_ABBR = { en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  lv:['janv.','febr.','marts','apr.','maijs','jūn.','jūl.','aug.','sept.','okt.','nov.','dec.'] };
+var MONTHS_FULL = { en:['January','February','March','April','May','June','July','August','September','October','November','December'],
+  lv:['janvāris','februāris','marts','aprīlis','maijs','jūnijs','jūlijs','augusts','septembris','oktobris','novembris','decembris'] };
+function monthLabel(m){ var p=m.split('-'); return MONTHS_ABBR[LANG][parseInt(p[1],10)-1]+" '"+p[0].slice(2); }
+function monthLabelFull(m){ var p=m.split('-'); return MONTHS_FULL[LANG][parseInt(p[1],10)-1]+' '+p[0]; }
 
 /* ================= FILTER STATE ================= */
 var state = {
@@ -673,7 +901,7 @@ function barList(el, items, opts){
     if(opts.clickable && d.key!==undefined){ row.addEventListener('click', function(){ opts.onClick(d.key); }); }
     el.appendChild(row);
   });
-  if(!items.length){ el.innerHTML='<div class="empty-note">Aucune donn&eacute;e pour ces filtres.</div>'; }
+  if(!items.length){ el.innerHTML='<div class="empty-note">'+t('noDataFilters')+'</div>'; }
 }
 
 function stackedBar(el, segments, total){
@@ -721,11 +949,11 @@ function lineChart(el, months, series, opts){
   svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('width','100%'); svg.setAttribute('height',H);
   svg.style.display='block'; svg.style.overflow='visible';
 
-  if(n<1){ el.innerHTML='<div class="empty-note">Aucune donn&eacute;e pour ces filtres.</div>'; return; }
+  if(n<1){ el.innerHTML='<div class="empty-note">'+t('noDataFilters')+'</div>'; return; }
 
   var ticks=4;
-  for(var t=0;t<=ticks;t++){
-    var v = maxV*t/ticks; var y = Y(v);
+  for(var t2=0;t2<=ticks;t2++){
+    var v = maxV*t2/ticks; var y = Y(v);
     var gl=document.createElementNS(svgns,'line');
     gl.setAttribute('x1',padL); gl.setAttribute('x2',W-padR); gl.setAttribute('y1',y); gl.setAttribute('y2',y);
     gl.setAttribute('class','axis-line'); svg.appendChild(gl);
@@ -806,16 +1034,16 @@ function groupedBars(el, campaigns){
   var max = 0.0001;
   campaigns.forEach(function(c){ max = Math.max(max, c.spend, c.attributed); });
   el.innerHTML='';
-  if(!campaigns.length){ el.innerHTML='<div class="empty-note">Aucune campagne dans la p&eacute;riode/les march&eacute;s filtr&eacute;s.</div>'; return; }
+  if(!campaigns.length){ el.innerHTML='<div class="empty-note">'+t('noCampaignsFiltered')+'</div>'; return; }
   campaigns.forEach(function(c){
     var wrap=document.createElement('div'); wrap.className='group';
-    var roasTxt = c.spend>0? (c.attributed/c.spend).toFixed(2).replace('.',',')+'×' : '—';
+    var roasTxt = c.spend>0? (c.attributed/c.spend).toFixed(2).replace('.',LANG==='lv'?',':'.')+'×' : '—';
     wrap.innerHTML =
       '<div class="ghead"><span class="gname">'+esc(c.name)+'</span>'+
       '<span class="gmeta">'+c.start+' → '+c.end+' &middot; ROAS '+roasTxt+'</span></div>'+
       '<div class="gbars">'+
-        gbarRow('Dépense', c.spend, max, 'var(--series-1)')+
-        gbarRow('CA attribué', c.attributed, max, 'var(--series-2)')+
+        gbarRow(t('gLabelSpend'), c.spend, max, 'var(--series-1)')+
+        gbarRow(t('gLabelAttr'), c.attributed, max, 'var(--series-2)')+
       '</div>';
     el.appendChild(wrap);
   });
@@ -833,7 +1061,7 @@ function buildTable(el, cols, rows, opts){
   var sortIdx = opts.defaultSort===undefined? 0: opts.defaultSort;
   var sortDir = -1;
   function render(){
-    if(!rows.length){ el.innerHTML='<thead></thead><tbody><tr><td class="empty-note" style="padding:16px;">Aucune ligne pour ces filtres.</td></tr></tbody>'; return; }
+    if(!rows.length){ el.innerHTML='<thead></thead><tbody><tr><td class="empty-note" style="padding:16px;">'+t('noRowsFilters')+'</td></tr></tbody>'; return; }
     var sorted = rows.slice().sort(function(a,b){
       var av=a[sortIdx], bv=b[sortIdx];
       if(typeof av==='string') return sortDir*av.localeCompare(bv);
@@ -862,8 +1090,6 @@ function buildTable(el, cols, rows, opts){
 
 /* ================= FILTER BAR UI ================= */
 function chipToggle(setObj, key, allValues){
-  // First click on a fully-selected group isolates that value (click = "filter to this").
-  // Clicking again on an isolated/partial selection adds/removes from it; emptying it resets to "all".
   if(setObj.size===allValues.length){
     setObj.clear(); setObj.add(key);
   } else if(setObj.has(key)){
@@ -873,32 +1099,31 @@ function chipToggle(setObj, key, allValues){
     setObj.add(key);
   }
 }
-function renderChipGroup(el, values, colorMap, selectedSet, labelMap){
+function renderChipGroup(el, values, colorMap, selectedSet, nameFn){
   el.innerHTML='';
   values.forEach(function(v){
     var chip=document.createElement('span'); chip.className='chip'+(selectedSet.has(v)?' on':'');
-    chip.innerHTML = (colorMap? '<span class="dot" style="display:inline-block;width:7px;height:7px;border-radius:2px;background:'+colorMap[v]+';margin-right:6px;"></span>':'')+esc(labelMap?labelMap[v]:v);
+    chip.innerHTML = (colorMap? '<span class="dot" style="display:inline-block;width:7px;height:7px;border-radius:2px;background:'+colorMap[v]+';margin-right:6px;"></span>':'')+esc(nameFn?nameFn(v):v);
     chip.addEventListener('click', function(){
       chipToggle(selectedSet, v, values);
-      renderChipGroup(el, values, colorMap, selectedSet, labelMap);
+      renderChipGroup(el, values, colorMap, selectedSet, nameFn);
       applyFilters();
     });
     el.appendChild(chip);
   });
 }
-function setActiveFromGroup(groupSet, allValues, key){ return groupSet.size===allValues.length ? null : groupSet.has(key); }
 
 function renderFilterBar(){
-  renderChipGroup(document.getElementById('fMarket'), MARKET_ORDER, MARKET_COLOR, state.markets, MARKET_NAME);
-  renderChipGroup(document.getElementById('fSegment'), SEGMENT_ORDER, SEGMENT_COLOR, state.segments);
-  renderChipGroup(document.getElementById('fChannel'), CHANNEL_ORDER, CHANNEL_COLOR, state.channels);
-  renderChipGroup(document.getElementById('fFamily'), FAMILY_ORDER, FAMILY_COLOR, state.families);
+  renderChipGroup(document.getElementById('fMarket'), MARKET_ORDER, MARKET_COLOR, state.markets, mktName);
+  renderChipGroup(document.getElementById('fSegment'), SEGMENT_ORDER, SEGMENT_COLOR, state.segments, segName);
+  renderChipGroup(document.getElementById('fChannel'), CHANNEL_ORDER, CHANNEL_COLOR, state.channels, chName);
+  renderChipGroup(document.getElementById('fFamily'), FAMILY_ORDER, FAMILY_COLOR, state.families, famName);
 
   var promoSel = document.getElementById('fPromo');
   promoSel.innerHTML =
-    '<option value="all">Toutes les commandes</option>'+
-    '<option value="with">Avec promo (toutes)</option>'+
-    '<option value="without">Sans promo</option>'+
+    '<option value="all">'+esc(t('promoOptAll'))+'</option>'+
+    '<option value="with">'+esc(t('promoOptWith'))+'</option>'+
+    '<option value="without">'+esc(t('promoOptWithout'))+'</option>'+
     PROMO_CODES.map(function(c){return '<option value="'+esc(c)+'">'+esc(c)+'</option>';}).join('');
   promoSel.value = state.promo;
   promoSel.onchange = function(){ state.promo = promoSel.value; applyFilters(); };
@@ -906,6 +1131,8 @@ function renderFilterBar(){
   var rsFrom = document.getElementById('rsFrom'), rsTo = document.getElementById('rsTo');
   rsFrom.max = rsTo.max = MONTHS.length-1;
   rsFrom.value = state.dateFrom; rsTo.value = state.dateTo;
+  rsFrom.setAttribute('aria-label', t('ariaStartMonth'));
+  rsTo.setAttribute('aria-label', t('ariaEndMonth'));
   updateSliderVisual();
   rsFrom.oninput = function(){
     var v = Math.min(+rsFrom.value, +rsTo.value);
@@ -916,20 +1143,27 @@ function renderFilterBar(){
     rsTo.value = v; state.dateTo = v; updateSliderVisual(); applyFilters();
   };
 
-  document.getElementById('fMoreBtn').onclick = function(){
+  var moreBtn = document.getElementById('fMoreBtn');
+  moreBtn.onclick = function(){
     var sec = document.getElementById('fSecondary');
     var willShow = sec.hidden;
     sec.hidden = !willShow;
+    fbExpanded = willShow;
     this.setAttribute('aria-expanded', willShow?'true':'false');
-    this.textContent = willShow? '− Filtres' : '+ Filtres';
+    this.textContent = willShow? t('fMoreClose') : t('fMoreOpen');
   };
+  moreBtn.textContent = fbExpanded? t('fMoreClose') : t('fMoreOpen');
+  moreBtn.setAttribute('aria-expanded', fbExpanded?'true':'false');
+
   document.getElementById('fResetBtn').onclick = function(){
     state = defaultState();
     document.getElementById('prodSearch').value='';
+    prodSearchTerm='';
     renderFilterBar();
     applyFilters();
   };
 }
+var fbExpanded = false;
 function updateSliderVisual(){
   var n = MONTHS.length-1 || 1;
   var l = state.dateFrom/n*100, r = state.dateTo/n*100;
@@ -945,12 +1179,12 @@ function renderOverview(lines, returns){
   var retValue=0, retUnits=0; returns.forEach(function(r){ retValue+=r[R_VALUE]; retUnits+=r[R_UNITS]; });
 
   var kpis = [
-    {label:'CA net (filtré)', value: fmtEURc(revenue), delta: fmtInt(orderSet.size)+' commandes'},
-    {label:'Marge nette', value: fmtEURc(margin), delta: fmtPct(safeDiv(margin,revenue)*100)+' du CA'},
-    {label:'Panier moyen', value: fmtEURfull(safeDiv(revenue,orderSet.size)), delta: fmtInt(units)+' unités vendues'},
-    {label:'Taux de retour (valeur)', value: fmtPct(safeDiv(retValue,revenue)*100), delta: fmtEURc(retValue)+' retournés', cls:'bad'},
-    {label:'Taux de retour (unités)', value: fmtPct(safeDiv(retUnits,units)*100), delta: fmtInt(retUnits)+' unités'},
-    {label:'Marchés inclus', value: state.markets.size+' / 6', delta: monthLabel(MONTHS[state.dateFrom])+' → '+monthLabel(MONTHS[state.dateTo])}
+    {label:t('kpiNetRevenue'), value: fmtEURc(revenue), delta: tf('dOrders',{n:fmtInt(orderSet.size)})},
+    {label:t('kpiNetMargin'), value: fmtEURc(margin), delta: tf('dOfRevenue',{p:fmtPct(safeDiv(margin,revenue)*100)})},
+    {label:t('kpiAvgBasket'), value: fmtEURfull(safeDiv(revenue,orderSet.size)), delta: tf('dUnitsSold',{n:fmtInt(units)})},
+    {label:t('kpiReturnRateValue'), value: fmtPct(safeDiv(retValue,revenue)*100), delta: tf('dReturned',{v:fmtEURc(retValue)}), cls:'bad'},
+    {label:t('kpiReturnRateUnits'), value: fmtPct(safeDiv(retUnits,units)*100), delta: tf('dUnits',{n:fmtInt(retUnits)})},
+    {label:t('kpiMarketsIncluded'), value: state.markets.size+' / 6', delta: monthLabel(MONTHS[state.dateFrom])+' → '+monthLabel(MONTHS[state.dateTo])}
   ];
   var row=document.getElementById('kpiRow'); row.innerHTML='';
   kpis.forEach(function(kk){
@@ -965,8 +1199,8 @@ function renderOverview(lines, returns){
   lines.forEach(function(r){ var i=MONTH_INDEX[r[L_DATE].slice(0,7)]-state.dateFrom; if(i>=0&&i<months.length) revByMonth[i]+=r[L_NET]; });
   returns.forEach(function(r){ var i=MONTH_INDEX[r[R_DATE].slice(0,7)]-state.dateFrom; if(i>=0&&i<months.length) retByMonth[i]+=r[R_VALUE]; });
   var series = [
-    {key:'rev', label:'CA net', color:'var(--series-1)', values: revByMonth},
-    {key:'ret', label:'Retours', color:'var(--series-8)', values: retByMonth}
+    {key:'rev', label:t('kpiNetRevenue'), color:'var(--series-1)', values: revByMonth},
+    {key:'ret', label:t('retLineTitle'), color:'var(--series-8)', values: retByMonth}
   ];
   legend(document.getElementById('ovLegend'), series.map(function(s){return {key:s.key,label:s.label,color:s.color};}), {
     toggle: function(key, chip){
@@ -982,8 +1216,8 @@ function renderOverview(lines, returns){
   var mktItems = MARKET_ORDER.map(function(c){ return {c:c, rev:byMkt[c].rev, orders:byMkt[c].orders.size}; })
     .sort(function(a,b){return b.rev-a.rev;});
   barList(document.getElementById('ovByMarket'), mktItems.map(function(r){
-    return {key:r.c, label:MARKET_NAME[r.c], mono:r.c, value:r.rev, valueLabel:fmtEURc(r.rev),
-      subLabel:fmtInt(r.orders)+' cmd', color:MARKET_COLOR[r.c], tip:fmtEURfull(r.rev),
+    return {key:r.c, label:mktName(r.c), mono:r.c, value:r.rev, valueLabel:fmtEURc(r.rev),
+      subLabel:tf('dOrders',{n:fmtInt(r.orders)}), color:MARKET_COLOR[r.c], tip:fmtEURfull(r.rev),
       inactive: state.markets.size<MARKET_ORDER.length && !state.markets.has(r.c)};
   }), {clickable:true, onClick:function(key){ chipToggle(state.markets, key, MARKET_ORDER); renderFilterBar(); applyFilters(); }});
 
@@ -991,7 +1225,7 @@ function renderOverview(lines, returns){
   lines.forEach(function(r){ if(bySeg[r[L_SEG]]!==undefined) bySeg[r[L_SEG]]+=r[L_NET]; });
   var segItems = SEGMENT_ORDER.map(function(s){return {s:s, rev:bySeg[s]};}).sort(function(a,b){return b.rev-a.rev;});
   barList(document.getElementById('ovBySegment'), segItems.map(function(r){
-    return {key:r.s, label:r.s, value:r.rev, valueLabel:fmtEURc(r.rev), color:SEGMENT_COLOR[r.s], tip:fmtEURfull(r.rev),
+    return {key:r.s, label:segName(r.s), value:r.rev, valueLabel:fmtEURc(r.rev), color:SEGMENT_COLOR[r.s], tip:fmtEURfull(r.rev),
       inactive: state.segments.size<SEGMENT_ORDER.length && !state.segments.has(r.s)};
   }), {clickable:true, onClick:function(key){ chipToggle(state.segments, key, SEGMENT_ORDER); renderFilterBar(); applyFilters(); }});
 
@@ -999,7 +1233,7 @@ function renderOverview(lines, returns){
   lines.forEach(function(r){ if(byCh[r[L_CH]]!==undefined) byCh[r[L_CH]]+=r[L_NET]; });
   var chItems = CHANNEL_ORDER.map(function(c){return {c:c, rev:byCh[c]};}).sort(function(a,b){return b.rev-a.rev;});
   barList(document.getElementById('ovByChannel'), chItems.map(function(r){
-    return {key:r.c, label:r.c, value:r.rev, valueLabel:fmtEURc(r.rev), color:CHANNEL_COLOR[r.c], tip:fmtEURfull(r.rev),
+    return {key:r.c, label:chName(r.c), value:r.rev, valueLabel:fmtEURc(r.rev), color:CHANNEL_COLOR[r.c], tip:fmtEURfull(r.rev),
       inactive: state.channels.size<CHANNEL_ORDER.length && !state.channels.has(r.c)};
   }), {clickable:true, onClick:function(key){ chipToggle(state.channels, key, CHANNEL_ORDER); renderFilterBar(); applyFilters(); }});
 }
@@ -1014,7 +1248,7 @@ function renderMarkets(lines, returns){
     var arr = byMktMonth[r[L_COUNTRY]]; if(!arr) return;
     var i=MONTH_INDEX[r[L_DATE].slice(0,7)]-state.dateFrom; if(i>=0&&i<months.length) arr[i]+=r[L_NET];
   });
-  var mktSeries = activeMarkets.map(function(c){ return {key:c, label:MARKET_NAME[c], color:MARKET_COLOR[c], values: byMktMonth[c], hidden:false}; });
+  var mktSeries = activeMarkets.map(function(c){ return {key:c, label:mktName(c), color:MARKET_COLOR[c], values: byMktMonth[c], hidden:false}; });
   legend(document.getElementById('mktLegend'), mktSeries.map(function(s){return {key:s.key,label:s.label,color:s.color};}), {
     toggle:function(key,chip){
       var s=mktSeries.find(function(x){return x.key===key;});
@@ -1026,19 +1260,33 @@ function renderMarkets(lines, returns){
 
   var agg = {}; activeMarkets.forEach(function(c){ agg[c]={rev:0,margin:0,orders:new Set(),units:0}; });
   lines.forEach(function(r){ var a=agg[r[L_COUNTRY]]; if(!a) return; a.rev+=r[L_NET]; a.margin+=r[L_MARGIN]; a.orders.add(r[L_ORDER]); a.units+=r[L_QTY]; });
-  var retAgg = {}; activeMarkets.forEach(function(c){ retAgg[c]=0; });
-  returns.forEach(function(r){ if(retAgg[r[R_COUNTRY]]!==undefined) retAgg[r[R_COUNTRY]]+=r[R_VALUE]; });
+
+  // Losses: refunded value, units, unsellable share (damaged/faulty), and est. COGS forfeited on those.
+  var retAgg = {};
+  activeMarkets.forEach(function(c){ retAgg[c]={value:0, units:0, valueUnsellable:0, cogsUnsellable:0, byReason:{}}; REASON_ORDER.forEach(function(r){retAgg[c].byReason[r]=0;}); });
+  returns.forEach(function(r){
+    var a = retAgg[r[R_COUNTRY]]; if(!a) return;
+    a.value += r[R_VALUE]; a.units += r[R_UNITS];
+    if(a.byReason[r[R_REASON]]!==undefined) a.byReason[r[R_REASON]] += r[R_VALUE];
+    if(UNSELLABLE_REASONS[r[R_REASON]]){
+      a.valueUnsellable += r[R_VALUE];
+      var info = SKU_INFO[r[R_SKU]];
+      if(info) a.cogsUnsellable += info.cost * r[R_UNITS];
+    }
+  });
 
   var cols = [
-    {label:'Marché', mono:true}, {label:'CA net', num:true, fmt:fmtEURfull},
-    {label:'Marge %', num:true, fmt:function(v){return fmtPct(v);}},
-    {label:'Panier moyen', num:true, fmt:fmtEURfull},
-    {label:'Commandes', num:true, fmt:fmtInt},
-    {label:'Retour (valeur %)', num:true, fmt:function(v){return fmtPct(v);}}
+    {label:t('mktColMarket'), mono:true}, {label:t('mktColRevenue'), num:true, fmt:fmtEURfull},
+    {label:t('mktColMarginPct'), num:true, fmt:function(v){return fmtPct(v);}},
+    {label:t('mktColBasket'), num:true, fmt:fmtEURfull},
+    {label:t('mktColOrders'), num:true, fmt:fmtInt},
+    {label:t('mktColReturnPct'), num:true, fmt:function(v){return fmtPct(v);}},
+    {label:t('mktColLosses'), num:true, fmt:fmtEURfull},
+    {label:t('mktColLossEst'), num:true, fmt:fmtEURfull}
   ];
   var rows = activeMarkets.map(function(c){
-    var a=agg[c];
-    return [c, a.rev, safeDiv(a.margin,a.rev)*100, safeDiv(a.rev,a.orders.size), a.orders.size, safeDiv(retAgg[c],a.rev)*100];
+    var a=agg[c]; var r=retAgg[c];
+    return [c, a.rev, safeDiv(a.margin,a.rev)*100, safeDiv(a.rev,a.orders.size), a.orders.size, safeDiv(r.value,a.rev)*100, r.value, r.cogsUnsellable];
   }).sort(function(a,b){return b[1]-a[1];});
   buildTable(document.getElementById('mktTable'), cols, rows, {defaultSort:1});
   setTimeout(function(){
@@ -1048,30 +1296,40 @@ function renderMarkets(lines, returns){
       tr.addEventListener('click', function(){ selectMarket(rows[i][0]); });
     });
   },0);
+  document.getElementById('mktLossesNote').innerHTML = t('mktLossesNote');
   if(activeMarkets.indexOf(selectedMarket)===-1) selectedMarket = activeMarkets[0];
+  window._marketsData = {lines:lines, retAgg:retAgg};
   if(activeMarkets.length) selectMarket(selectedMarket); else {
-    document.getElementById('mktSegStack').innerHTML='<div class="empty-note">Aucun marché sélectionné.</div>';
+    document.getElementById('mktSegStack').innerHTML='<div class="empty-note">'+t('noMarketSelected')+'</div>';
     document.getElementById('mktChStack').innerHTML='';
+    document.getElementById('mktReasonStack').innerHTML='';
   }
-  window._marketsData = {lines:lines};
 }
 function selectMarket(code){
   selectedMarket = code;
-  document.getElementById('mktDetailName1').textContent = MARKET_NAME[code]||code;
-  document.getElementById('mktDetailName2').textContent = MARKET_NAME[code]||code;
+  var nm = mktName(code)||code;
+  document.getElementById('mktDetailName1').textContent = nm;
+  document.getElementById('mktDetailName2').textContent = nm;
+  document.getElementById('mktDetailName3').textContent = nm;
   var lines = (window._marketsData && window._marketsData.lines) || [];
+  var retAgg = (window._marketsData && window._marketsData.retAgg) || {};
 
   var segTotals = {}; SEGMENT_ORDER.forEach(function(s){segTotals[s]=0;});
   lines.forEach(function(r){ if(r[L_COUNTRY]===code && segTotals[r[L_SEG]]!==undefined) segTotals[r[L_SEG]]+=r[L_NET]; });
   var segTotal = SEGMENT_ORDER.reduce(function(a,s){return a+segTotals[s];},0);
-  legend(document.getElementById('segLegend'), SEGMENT_ORDER.map(function(s){return {key:s,label:s,color:SEGMENT_COLOR[s]};}));
-  stackedBar(document.getElementById('mktSegStack'), SEGMENT_ORDER.map(function(s){ return {label:s, value:segTotals[s], color:SEGMENT_COLOR[s]}; }), segTotal);
+  legend(document.getElementById('segLegend'), SEGMENT_ORDER.map(function(s){return {key:s,label:segName(s),color:SEGMENT_COLOR[s]};}));
+  stackedBar(document.getElementById('mktSegStack'), SEGMENT_ORDER.map(function(s){ return {label:segName(s), value:segTotals[s], color:SEGMENT_COLOR[s]}; }), segTotal);
 
   var chTotals = {}; CHANNEL_ORDER.forEach(function(c){chTotals[c]=0;});
   lines.forEach(function(r){ if(r[L_COUNTRY]===code && chTotals[r[L_CH]]!==undefined) chTotals[r[L_CH]]+=r[L_NET]; });
   var chTotal = CHANNEL_ORDER.reduce(function(a,c){return a+chTotals[c];},0);
-  legend(document.getElementById('chLegend'), CHANNEL_ORDER.map(function(c){return {key:c,label:c,color:CHANNEL_COLOR[c]};}));
-  stackedBar(document.getElementById('mktChStack'), CHANNEL_ORDER.map(function(c){ return {label:c, value:chTotals[c], color:CHANNEL_COLOR[c]}; }), chTotal);
+  legend(document.getElementById('chLegend'), CHANNEL_ORDER.map(function(c){return {key:c,label:chName(c),color:CHANNEL_COLOR[c]};}));
+  stackedBar(document.getElementById('mktChStack'), CHANNEL_ORDER.map(function(c){ return {label:chName(c), value:chTotals[c], color:CHANNEL_COLOR[c]}; }), chTotal);
+
+  var reasonTotals = (retAgg[code]&&retAgg[code].byReason) || {};
+  var reasonTotal = REASON_ORDER.reduce(function(a,r){return a+(reasonTotals[r]||0);},0);
+  legend(document.getElementById('reasonLegend'), REASON_ORDER.map(function(r){return {key:r,label:reasonName(r),color:REASON_COLOR[r]};}));
+  stackedBar(document.getElementById('mktReasonStack'), REASON_ORDER.map(function(r){ return {label:reasonName(r), value:reasonTotals[r]||0, color:REASON_COLOR[r]}; }), reasonTotal);
 }
 
 /* ================= RENDER: PRODUCTS ================= */
@@ -1090,13 +1348,13 @@ function renderProducts(lines){
   var famItems = famActive.map(function(f){return {f:f, rev:famAgg[f].rev, margin:famAgg[f].margin, units:famAgg[f].units};})
     .sort(function(a,b){return b.rev-a.rev;});
   barList(document.getElementById('famRevenue'), famItems.map(function(r){
-    return {key:r.f, label:r.f, value:r.rev, valueLabel:fmtEURc(r.rev), subLabel:fmtPct(safeDiv(r.margin,r.rev)*100)+' marge', color:'var(--accent)', tip:fmtEURfull(r.rev)};
+    return {key:r.f, label:famName(r.f), value:r.rev, valueLabel:fmtEURc(r.rev), subLabel:fmtPct(safeDiv(r.margin,r.rev)*100), color:'var(--accent)', tip:fmtEURfull(r.rev)};
   }), {clickable:true, onClick:function(key){ chipToggle(state.families, key, FAMILY_ORDER); renderFilterBar(); applyFilters(); }});
 
   var famByMargin = famItems.slice().sort(function(a,b){return b.margin-a.margin;});
   barList(document.getElementById('famMargin'), famByMargin.map(function(r){
     var neg = r.margin<0;
-    return {key:r.f, label:r.f, value:Math.max(r.margin,0), valueLabel:fmtEURc(r.margin), subLabel:fmtInt(r.units)+' unités', color: neg?'var(--st-critical)':'var(--series-6)', tip:fmtEURfull(r.margin)};
+    return {key:r.f, label:famName(r.f), value:Math.max(r.margin,0), valueLabel:fmtEURc(r.margin), subLabel:tf('dUnits',{n:fmtInt(r.units)}), color: neg?'var(--st-critical)':'var(--series-6)', tip:fmtEURfull(r.margin)};
   }), {max: Math.max.apply(null, famItems.map(function(r){return r.margin;}).concat([1])), clickable:true, onClick:function(key){ chipToggle(state.families, key, FAMILY_ORDER); renderFilterBar(); applyFilters(); }});
 
   var allSkuRows = Object.keys(skuAgg).map(function(sku){
@@ -1112,14 +1370,14 @@ function renderProducts(lines){
 
   var filteredSkuRows = allSkuRows.filter(function(r){
     if(!prodSearchTerm) return true;
-    var t = prodSearchTerm.toLowerCase();
-    return r.sku.toLowerCase().indexOf(t)>=0 || r.name.toLowerCase().indexOf(t)>=0;
+    var q = prodSearchTerm.toLowerCase();
+    return r.sku.toLowerCase().indexOf(q)>=0 || r.name.toLowerCase().indexOf(q)>=0;
   });
-  document.getElementById('prodTableTitle').textContent = prodSearchTerm ? filteredSkuRows.length+' résultat(s) pour « '+prodSearchTerm+' »' : 'Les '+allSkuRows.length+' SKU';
+  document.getElementById('prodTableTitle').textContent = prodSearchTerm ? tf('prodSearchResults',{n:filteredSkuRows.length,q:prodSearchTerm}) : tf('prodAllSkus',{n:allSkuRows.length});
   var cols=[
-    {label:'SKU', mono:true}, {label:'Produit'}, {label:'Famille'},
-    {label:'CA', num:true, fmt:fmtEURfull}, {label:'Unités', num:true, fmt:fmtInt},
-    {label:'Marge', num:true, fmt:fmtEURfull}, {label:'Marge %', num:true, fmt:function(v){return fmtPct(v);}}
+    {label:t('colSku'), mono:true}, {label:t('colProduct')}, {label:t('colFamily'), fmt:function(v){return esc(famName(v));}},
+    {label:t('colRevenue'), num:true, fmt:fmtEURfull}, {label:t('colUnits'), num:true, fmt:fmtInt},
+    {label:t('colMargin'), num:true, fmt:fmtEURfull}, {label:t('colMarginPct'), num:true, fmt:function(v){return fmtPct(v);}}
   ];
   var rows = filteredSkuRows.map(function(r){
     var mp = r.rev? (100*r.margin/r.rev):0;
@@ -1137,8 +1395,6 @@ function renderPromos(lines){
     if(!promoAgg[code]) promoAgg[code] = {rev:0, discount:0, n:0};
     promoAgg[code].rev += r[L_NET]; promoAgg[code].n += 1;
   });
-  // discount given: exact, from this line's own pre-discount unit price (not today's catalog price,
-  // since legacy items' prices erode over time and would overstate the discount).
   lines.forEach(function(r){
     var code=r[L_PROMO]; if(!code) return;
     var grossAtLinePrice = r[L_QTY]*r[L_PRICE];
@@ -1159,8 +1415,8 @@ function renderPromos(lines){
   }), {clickable:true, onClick:function(key){ state.promo = (state.promo===key)? 'all' : key; renderFilterBar(); applyFilters(); }});
 
   legend(document.getElementById('campLegend'), [
-    {key:'spend', label:'Dépense marketing', color:'var(--series-1)'},
-    {key:'rev', label:'CA attribué (même marché + fenêtre, filtres appliqués)', color:'var(--series-2)'}
+    {key:'spend', label:t('campLegendSpend'), color:'var(--series-1)'},
+    {key:'rev', label:t('campLegendAttr'), color:'var(--series-2)'}
   ]);
   var campRows = DATA.campaigns.filter(function(c){ return c.promo; }).map(function(c){
     var attributed = 0;
@@ -1184,14 +1440,12 @@ function renderPromos(lines){
       if(r[L_DATE] < acc.start || r[L_DATE] > acc.end) return;
       accAttr += r[L_NET];
     });
-    document.getElementById('campNote').innerHTML =
-      'Campagne <b>'+acc.id+'</b> (push accessoires, sans code promo) &mdash; d&eacute;pense '+fmtEURfull(acc.spend)+', CA accessoires attribu&eacute; sur la fen&ecirc;tre/march&eacute;s cibl&eacute;s (filtres actuels appliqu&eacute;s) : '+fmtEURfull(accAttr)+'.<br>'+
-      'Plusieurs codes &laquo; Back to School &raquo; ont aussi &eacute;t&eacute; utilis&eacute;s dans des march&eacute;s/ann&eacute;es hors p&eacute;rim&egrave;tre de la campagne trac&eacute;e correspondante (ex. DE et CZ d&egrave;s 2021&ndash;2022, avant leur int&eacute;gration officielle) &mdash; ce CA n&rsquo;est adoss&eacute; &agrave; aucune d&eacute;pense connue, donc exclu du ROAS ci-dessus.';
+    document.getElementById('campNote').innerHTML = CAMPNOTE_I18N[LANG](acc.id, acc.spend, accAttr);
   }
 
   var cols=[
-    {label:'Code', mono:true}, {label:'Utilisations', num:true, fmt:fmtInt},
-    {label:'CA généré', num:true, fmt:fmtEURfull}, {label:'Remise donnée', num:true, fmt:fmtEURfull}
+    {label:t('colCode'), mono:true}, {label:t('colUses'), num:true, fmt:fmtInt},
+    {label:t('colRevenueGenerated'), num:true, fmt:fmtEURfull}, {label:t('colDiscountGiven'), num:true, fmt:fmtEURfull}
   ];
   var rows = promoItems.map(function(r){ return [r.code, r.n, r.rev, r.discount]; });
   buildTable(document.getElementById('promoTable'), cols, rows, {defaultSort:2});
@@ -1203,10 +1457,10 @@ function renderReturns(lines, returns){
   var retValue=0, retUnits=0; returns.forEach(function(r){ retValue+=r[R_VALUE]; retUnits+=r[R_UNITS]; });
   var dq = DATA.data_quality;
   var kpis=[
-    {label:'Valeur retournée (filtrée)', value:fmtEURc(retValue)},
-    {label:'Unités retournées', value:fmtInt(retUnits)},
-    {label:'Taux (valeur)', value:fmtPct(safeDiv(retValue, lines.reduce(function(a,r){return a+r[L_NET];},0))*100)},
-    {label:'Lignes de retour', value:fmtInt(returns.length)+' / '+fmtInt(dq.returns_clean_rows)}
+    {label:t('kpiReturnedValueFiltered'), value:fmtEURc(retValue)},
+    {label:t('kpiUnitsReturned'), value:fmtInt(retUnits)},
+    {label:t('kpiRateValue'), value:fmtPct(safeDiv(retValue, lines.reduce(function(a,r){return a+r[L_NET];},0))*100)},
+    {label:t('kpiReturnLines'), value:fmtInt(returns.length)+' / '+fmtInt(dq.returns_clean_rows)}
   ];
   var row=document.getElementById('retKpiRow'); row.innerHTML='';
   kpis.forEach(function(kk){
@@ -1219,7 +1473,7 @@ function renderReturns(lines, returns){
   var retByMonth = months.map(function(){return 0;});
   returns.forEach(function(r){ var i=MONTH_INDEX[r[R_DATE].slice(0,7)]-state.dateFrom; if(i>=0&&i<months.length) retByMonth[i]+=r[R_VALUE]; });
   lineChart(document.getElementById('retLine'), months, [
-    {key:'ret', label:'Valeur retournée', color:'var(--series-8)', values: retByMonth}
+    {key:'ret', label:t('retLineTitle'), color:'var(--series-8)', values: retByMonth}
   ], {area:true});
 
   var activeMarkets = MARKET_ORDER.filter(function(c){return state.markets.has(c);});
@@ -1229,13 +1483,13 @@ function renderReturns(lines, returns){
   var mktItems = activeMarkets.map(function(c){ return {c:c, rate: safeDiv(retByMkt[c],revByMkt[c])*100, val:retByMkt[c]}; })
     .sort(function(a,b){return b.rate-a.rate;});
   barList(document.getElementById('retByMarket'), mktItems.map(function(r){
-    return {label:MARKET_NAME[r.c], mono:r.c, value:r.rate, valueLabel:fmtPct(r.rate), subLabel:fmtEURc(r.val), color:MARKET_COLOR[r.c], tip:fmtEURfull(r.val)};
+    return {label:mktName(r.c), mono:r.c, value:r.rate, valueLabel:fmtPct(r.rate), subLabel:fmtEURc(r.val), color:MARKET_COLOR[r.c], tip:fmtEURfull(r.val)};
   }), {max: Math.max.apply(null, mktItems.map(function(r){return r.rate;}).concat([1]))*1.15});
 
   var byReason = {}; returns.forEach(function(r){ if(!byReason[r[R_REASON]]) byReason[r[R_REASON]]={value:0,n:0}; byReason[r[R_REASON]].value+=r[R_VALUE]; byReason[r[R_REASON]].n+=1; });
   var reasonItems = Object.keys(byReason).map(function(k){return {reason:k,value:byReason[k].value,n:byReason[k].n};}).sort(function(a,b){return b.value-a.value;});
   barList(document.getElementById('retByReason'), reasonItems.map(function(r){
-    return {label:r.reason, value:r.value, valueLabel:fmtEURc(r.value), subLabel:fmtInt(r.n)+'×', color:'var(--series-8)', tip:fmtEURfull(r.value)};
+    return {label:reasonName(r.reason), value:r.value, valueLabel:fmtEURc(r.value), subLabel:fmtInt(r.n)+'×', color:'var(--series-8)', tip:fmtEURfull(r.value)};
   }));
 
   var byFam = {}; returns.forEach(function(r){
@@ -1244,7 +1498,7 @@ function renderReturns(lines, returns){
   });
   var famItems = Object.keys(byFam).map(function(k){return {family:k,value:byFam[k].value,n:byFam[k].n};}).sort(function(a,b){return b.value-a.value;});
   barList(document.getElementById('retByFamily'), famItems.map(function(r){
-    return {label:r.family, value:r.value, valueLabel:fmtEURc(r.value), subLabel:fmtInt(r.n)+'×', color:'var(--series-8)', tip:fmtEURfull(r.value)};
+    return {label:famName(r.family), value:r.value, valueLabel:fmtEURc(r.value), subLabel:fmtInt(r.n)+'×', color:'var(--series-8)', tip:fmtEURfull(r.value)};
   }));
 }
 
@@ -1252,10 +1506,10 @@ function renderReturns(lines, returns){
 function renderQuality(){
   var dq = DATA.data_quality;
   var stats=[
-    {label:'Lignes de commande', value:fmtInt(dq.total_order_lines)},
-    {label:'Retours bruts → nets', value:fmtInt(dq.returns_raw_rows)+' → '+fmtInt(dq.returns_clean_rows)},
-    {label:'Doublons retirés', value:fmtInt(dq.returns_exact_duplicates_removed)},
-    {label:'Jointures orphelines', value:'0'}
+    {label:t('dqStatOrderLines'), value:fmtInt(dq.total_order_lines)},
+    {label:t('dqStatReturnsRawNet'), value:fmtInt(dq.returns_raw_rows)+' → '+fmtInt(dq.returns_clean_rows)},
+    {label:t('dqStatDuplicatesRemoved'), value:fmtInt(dq.returns_exact_duplicates_removed)},
+    {label:t('dqStatOrphanJoins'), value:'0'}
   ];
   var row=document.getElementById('dqStatRow'); row.innerHTML='';
   stats.forEach(function(s){
@@ -1264,8 +1518,11 @@ function renderQuality(){
     row.appendChild(c);
   });
   var order = {high:0,medium:1,low:2,info:3};
-  var sevLabel = {high:'Majeur — corrigé', medium:'Corrigé', low:'Mineur', info:'À noter'};
-  var issues = dq.issues.slice().sort(function(a,b){return order[a.severity]-order[b.severity];});
+  var sevLabel = {high:t('sevHigh'), medium:t('sevMedium'), low:t('sevLow'), info:t('sevInfo')};
+  var srcIssues = dq.issues;
+  var trIssues = DQ_I18N[LANG] || DQ_I18N.en;
+  var issues = srcIssues.map(function(iss,i){ var tr=trIssues[i]||{}; return {severity:iss.severity, title:tr.title||iss.title, detail:tr.detail||iss.detail}; })
+    .sort(function(a,b){return order[a.severity]-order[b.severity];});
   var grid = document.getElementById('dqGrid'); grid.innerHTML='';
   issues.forEach(function(iss){
     var c=document.createElement('div'); c.className='dq-card';
@@ -1278,13 +1535,13 @@ function renderQuality(){
 function renderSummary(lines, returns){
   var orders = new Set(); lines.forEach(function(r){orders.add(r[L_ORDER]);});
   var parts = [
-    '<b>'+fmtInt(lines.length)+'</b> lignes de commande',
-    '<b>'+fmtInt(orders.size)+'</b> commandes',
-    '<b>'+fmtInt(returns.length)+'</b> retours',
-    '<b>'+state.markets.size+'/6</b> marchés',
-    '<b>'+state.segments.size+'/4</b> segments',
-    '<b>'+state.channels.size+'/4</b> canaux',
-    '<b>'+state.families.size+'/'+FAMILY_ORDER.length+'</b> familles'
+    '<b>'+fmtInt(lines.length)+'</b> '+t('sumOrderLines'),
+    '<b>'+fmtInt(orders.size)+'</b> '+t('sumOrders'),
+    '<b>'+fmtInt(returns.length)+'</b> '+t('sumReturns'),
+    '<b>'+state.markets.size+'/6</b> '+t('sumMarkets'),
+    '<b>'+state.segments.size+'/4</b> '+t('sumSegments'),
+    '<b>'+state.channels.size+'/4</b> '+t('sumChannels'),
+    '<b>'+state.families.size+'/'+FAMILY_ORDER.length+'</b> '+t('sumFamilies')
   ];
   document.getElementById('fSummary').innerHTML = parts.join(' &middot; ');
   document.getElementById('f-lines').textContent = fmtInt(lines.length)+' / '+fmtInt(DATA.lines.length);
@@ -1302,21 +1559,22 @@ function applyFilters(){
   renderSummary(lines, returns);
 }
 
-/* ================= NAV / INIT ================= */
-var TITLES = {
-  overview:['Overview',"Chiffre d'affaires net consolidé, filtré en direct"],
-  markets:['Marchés',"Détail par pays"],
-  products:['Produits',"Familles, références, recherche"],
-  promos:['Promotions',"Codes promo et campagnes marketing"],
-  returns:['Retours',"Volume, valeur et motifs"],
-  quality:['Qualité des données',"Méthode de nettoyage et anomalies trouvées (données brutes, non filtré)"]
-};
+/* ================= NAV / INIT / I18N WIRING ================= */
+var currentView = 'overview';
+function titlesFor(name){
+  var map = { overview:['titleOverview','subOverview'], markets:['titleMarkets','subMarkets'], products:['titleProducts','subProducts'],
+    promos:['titlePromos','subPromos'], returns:['titleReturns','subReturns'], quality:['titleQuality','subQuality'] };
+  var k = map[name];
+  return [t(k[0]), t(k[1])];
+}
 function showView(name){
+  currentView = name;
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   document.getElementById('view-'+name).classList.add('active');
   document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('active', b.dataset.view===name); });
-  document.getElementById('pagetitle').textContent = TITLES[name][0];
-  document.getElementById('pagesub').textContent = TITLES[name][1];
+  var ts = titlesFor(name);
+  document.getElementById('pagetitle').textContent = ts[0];
+  document.getElementById('pagesub').textContent = ts[1];
 }
 document.getElementById('navlist').addEventListener('click', function(e){
   var btn = e.target.closest('button'); if(!btn) return;
@@ -1329,15 +1587,60 @@ document.getElementById('prodSearch').addEventListener('input', function(){
 
 function debounce(fn,ms){ var t; return function(){ clearTimeout(t); var a=arguments; t=setTimeout(function(){fn.apply(null,a);},ms); }; }
 
-function init(){
-  document.getElementById('f-range').textContent = MONTHS[0].slice(0,4)+'–'+MONTHS[MONTHS.length-1].slice(0,4);
-  document.getElementById('topRange').textContent = DATA.date_min+' → '+DATA.date_max;
+/* static (non re-rendered-by-filters) text nodes translated on init + language switch */
+var STATIC_IDS = ['navOverview','navMarkets','navProducts','navPromos','navReturns','navQuality','brandSub',
+  'railLinesLabel:railLines','railReturnsLabel:railReturns','railPeriodLabel:railPeriod',
+  'fLabelMarket','fLabelSegment','fLabelPeriod','fLabelChannel','fLabelFamily','fLabelPromo','fbHint',
+  'mktSectionTitle','mktSectionLede','mktLineTitle','mktLineHint','mktTableTitle','mktTableHint',
+  'mktMixSegPrefix','mktMixChPrefix','mktMixReasonPrefix',
+  'ovLineTitle','ovLineHint','ovByMarketTitle','ovByMarketHint','ovBySegmentTitle','ovBySegmentHint','ovByChannelTitle','ovByChannelHint',
+  'prodSectionTitle','prodSectionLede','famRevenueTitle','famRevenueHint','famMarginTitle','famMarginHint','topProductsTitle',
+  'promoSectionTitle','promoSectionLede','promoRevenueTitle','promoRevenueHintPrefix','promoDiscountTitle','promoDiscountHint',
+  'campTitle','campHint','promoTableTitle',
+  'retSectionTitle','retSectionLede','retLineTitle','retByMarketTitle','retByMarketHint','retByReasonTitle','retByFamilyTitle',
+  'qualitySectionTitle','qualitySectionLede'
+];
+function applyStaticText(){
+  STATIC_IDS.forEach(function(spec){
+    var parts = spec.split(':'); var id = parts[0], key = parts[1]||parts[0];
+    var el = document.getElementById(id); if(el) el.textContent = t(key);
+  });
+  document.getElementById('fMoreBtn').textContent = fbExpanded? t('fMoreClose') : t('fMoreOpen');
+  document.getElementById('fResetBtn').textContent = t('fReset');
+  document.getElementById('prodSearch').setAttribute('placeholder', t('prodSearchPlaceholder'));
+  document.getElementById('footerCredits').innerHTML = t('footerCredits');
+  document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===LANG); });
+  document.documentElement.setAttribute('lang', LANG);
+}
+
+function setLang(lang){
+  if(lang!==LANG){
+    LANG = lang;
+    try{ localStorage.setItem('ccdist_lang', lang); }catch(e){}
+  }
+  applyStaticText();
   renderFilterBar();
   renderQuality();
   applyFilters();
+  showView(currentView);
+}
+document.getElementById('langSwitch').addEventListener('click', function(e){
+  var btn = e.target.closest('.lang-btn'); if(!btn) return;
+  setLang(btn.dataset.lang);
+});
+
+function init(){
+  document.getElementById('topRange').textContent = DATA.date_min+' → '+DATA.date_max;
+  applyStaticText();
+  renderFilterBar();
+  renderQuality();
+  applyFilters();
+  showView('overview');
   window.addEventListener('resize', debounce(function(){ applyFilters(); }, 200));
 }
 init();
 })();
 
 </script>
+</body>
+</html>
