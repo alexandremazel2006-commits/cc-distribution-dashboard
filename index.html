@@ -20,22 +20,22 @@
   --grid:        #e3e0d5;
   --baseline:    #c7c3b5;
   --border:      rgba(23,22,15,0.10);
-  --accent:      #35332c;
-  --accent-wash: rgba(53,51,44,0.10);
+  --accent:      #2a78d6;
+  --accent-wash: rgba(42,120,214,0.10);
 
-  --series-1: #1c1b16;
-  --series-2: #38362d;
-  --series-3: #504d41;
-  --series-4: #676356;
-  --series-5: #7f7a6a;
-  --series-6: #96917d;
-  --series-7: #aea890;
-  --series-8: #c5bea3;
+  --series-1: #2a78d6; /* blue */
+  --series-2: #eb6834; /* orange */
+  --series-3: #1baf7a; /* aqua */
+  --series-4: #eda100; /* yellow */
+  --series-5: #e87ba4; /* magenta */
+  --series-6: #008300; /* green */
+  --series-7: #4a3aa7; /* violet */
+  --series-8: #e34948; /* red */
 
-  --st-good: #6a675a;
-  --st-warn: #4a473c;
-  --st-serious: #35332b;
-  --st-critical: #17160f;
+  --st-good: #0ca30c;
+  --st-warn: #fab219;
+  --st-serious: #ec835a;
+  --st-critical: #d03b3b;
 
   --shadow: 0 1px 2px rgba(23,22,15,0.04), 0 8px 24px -12px rgba(23,22,15,0.12);
 }
@@ -52,17 +52,17 @@
     --grid:        #2c2c28;
     --baseline:    #3a382f;
     --border:      rgba(247,246,242,0.10);
-    --accent:      #cfcac0;
-    --accent-wash: rgba(207,202,192,0.14);
-    --series-1: #f2f0ea;
-    --series-2: #d8d4c8;
-    --series-3: #bdb8aa;
-    --series-4: #a29c8c;
-    --series-5: #87816f;
-    --series-6: #6c6656;
-    --series-7: #524d40;
-    --series-8: #38352b;
-    --st-good: #a29c8c; --st-warn: #bdb8aa; --st-serious: #d8d4c8; --st-critical: #f2f0ea;
+    --accent:      #4a8fe0;
+    --accent-wash: rgba(74,143,224,0.14);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+    --series-5: #d55181;
+    --series-6: #2fae2f;
+    --series-7: #9085e9;
+    --series-8: #e66767;
+    --st-good: #0ca30c; --st-warn: #fab219; --st-serious: #ec835a; --st-critical: #e66767;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
   }
 }
@@ -78,11 +78,11 @@
   --grid:        #2c2c28;
   --baseline:    #3a382f;
   --border:      rgba(247,246,242,0.10);
-  --accent:      #cfcac0;
-  --accent-wash: rgba(207,202,192,0.14);
-  --series-1: #f2f0ea; --series-2: #d8d4c8; --series-3: #bdb8aa; --series-4: #a29c8c;
-  --series-5: #87816f; --series-6: #6c6656; --series-7: #524d40; --series-8: #38352b;
-  --st-good: #a29c8c; --st-warn: #bdb8aa; --st-serious: #d8d4c8; --st-critical: #f2f0ea;
+  --accent:      #4a8fe0;
+  --accent-wash: rgba(74,143,224,0.14);
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500;
+  --series-5: #d55181; --series-6: #2fae2f; --series-7: #9085e9; --series-8: #e66767;
+  --st-good: #0ca30c; --st-warn: #fab219; --st-serious: #ec835a; --st-critical: #e66767;
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
 }
 
@@ -115,20 +115,8 @@ a{ color:var(--accent); }
 }
 .nav button svg{ width:15px; height:15px; flex:0 0 auto; opacity:0.75; }
 .nav button:hover{ background:var(--surface-2); color:var(--ink); }
-.nav button.active{ font-weight:600; }
+.nav button.active{ background:var(--accent-wash); color:var(--accent); font-weight:600; }
 .nav button.active svg{ opacity:1; }
-.nav button:nth-child(1){ color:color-mix(in srgb, var(--series-1) 75%, var(--ink-2)); }
-.nav button:nth-child(2){ color:color-mix(in srgb, var(--series-2) 75%, var(--ink-2)); }
-.nav button:nth-child(3){ color:color-mix(in srgb, var(--series-3) 75%, var(--ink-2)); }
-.nav button:nth-child(4){ color:color-mix(in srgb, var(--series-5) 75%, var(--ink-2)); }
-.nav button:nth-child(5){ color:color-mix(in srgb, var(--series-8) 75%, var(--ink-2)); }
-.nav button:nth-child(6){ color:color-mix(in srgb, var(--series-7) 75%, var(--ink-2)); }
-.nav button:nth-child(1).active{ background:color-mix(in srgb, var(--series-1) 15%, transparent); color:var(--series-1); }
-.nav button:nth-child(2).active{ background:color-mix(in srgb, var(--series-2) 15%, transparent); color:var(--series-2); }
-.nav button:nth-child(3).active{ background:color-mix(in srgb, var(--series-3) 15%, transparent); color:var(--series-3); }
-.nav button:nth-child(4).active{ background:color-mix(in srgb, var(--series-5) 15%, transparent); color:var(--series-5); }
-.nav button:nth-child(5).active{ background:color-mix(in srgb, var(--series-8) 15%, transparent); color:var(--series-8); }
-.nav button:nth-child(6).active{ background:color-mix(in srgb, var(--series-7) 15%, transparent); color:var(--series-7); }
 
 .rail-foot{ margin-top:auto; padding:10px 6px 0; border-top:1px solid var(--border); font-size:11px; color:var(--ink-muted); }
 .rail-foot .row{ display:flex; justify-content:space-between; padding:3px 0; }
@@ -205,10 +193,8 @@ a{ color:var(--accent); }
 .range-slider input[type="range"]:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--accent); outline-offset:2px; }
 
 .content{ padding:22px 28px 64px; max-width:1280px; }
-.view{ display:none; }
-.view.active{ display:block; animation:fade .25s ease; }
-@keyframes fade{ from{opacity:0; transform:translateY(3px);} to{opacity:1; transform:none;} }
-@media (prefers-reduced-motion: reduce){ .view.active{ animation:none; } }
+.view{ display:block; scroll-margin-top:var(--sticky-offset, 190px); padding-bottom:36px; margin-bottom:14px; border-bottom:1px solid var(--border); }
+.view:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
 
 /* ============ Primitives ============ */
 .grid{ display:grid; gap:14px; }
@@ -227,20 +213,14 @@ a{ color:var(--accent); }
 .card-head .hint{ font-size:11.5px; color:var(--ink-muted); }
 .card-note{ font-size:12px; color:var(--ink-muted); margin-top:10px; line-height:1.55; }
 
-.kpi{ padding:15px 16px 15px 19px; box-shadow: var(--shadow), inset 3.5px 0 0 0 var(--kpi-color, transparent); }
+.kpi{ padding:15px 16px; }
 .kpi .label{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.075em; color:var(--ink-muted); font-weight:600; }
-.kpi .value{ font-size:23px; font-weight:700; margin-top:7px; font-family:"Archivo",sans-serif; color:var(--kpi-color, var(--ink)); }
+.kpi .value{ font-size:23px; font-weight:700; margin-top:7px; font-family:"Archivo",sans-serif; }
 .kpi .delta{ font-size:11px; margin-top:5px; color:var(--ink-2); }
-.kpi .delta.bad{ color:var(--st-critical); font-weight:700; }
+.kpi .delta.bad{ color:var(--st-critical); }
 .kpi .delta.good{ color:var(--st-good); }
 
-.section-title{ font-size:20px; font-weight:800; margin:2px 0 4px; font-family:"Archivo",sans-serif; display:flex; align-items:center; gap:10px; }
-.section-title::before{ content:''; display:inline-block; width:11px; height:11px; border-radius:3px; flex:0 0 auto; background:var(--st-accent, transparent); }
-#view-markets .section-title{ --st-accent: var(--series-2); }
-#view-products .section-title{ --st-accent: var(--series-3); }
-#view-promos .section-title{ --st-accent: var(--series-5); }
-#view-returns .section-title{ --st-accent: var(--series-8); }
-#view-quality .section-title{ --st-accent: var(--series-7); }
+.section-title{ font-size:20px; font-weight:800; margin:2px 0 4px; font-family:"Archivo",sans-serif; }
 .section-lede{ font-size:13px; color:var(--ink-2); max-width:62ch; margin-bottom:18px; }
 
 /* legend */
@@ -302,7 +282,7 @@ td.num{ font-variant-numeric:tabular-nums; }
 }
 .chip.on{ background:var(--ink); color:var(--page); border-color:var(--ink); }
 .sev{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:3px 9px; border-radius:20px; }
-.sev.high{ background:color-mix(in srgb, var(--st-critical) 16%, transparent); color:var(--st-critical); font-weight:700; }
+.sev.high{ background:color-mix(in srgb, var(--st-critical) 16%, transparent); color:var(--st-critical); }
 .sev.medium{ background:color-mix(in srgb, var(--st-serious) 18%, transparent); color:var(--st-serious); }
 .sev.low{ background:color-mix(in srgb, var(--st-warn) 22%, transparent); color:color-mix(in srgb, var(--st-warn) 70%, var(--ink)); }
 .sev.info{ background:var(--surface-2); color:var(--ink-muted); }
@@ -1170,6 +1150,7 @@ function renderFilterBar(){
     fbExpanded = willShow;
     this.setAttribute('aria-expanded', willShow?'true':'false');
     this.textContent = willShow? t('fMoreClose') : t('fMoreOpen');
+    updateStickyOffset();
   };
   moreBtn.textContent = fbExpanded? t('fMoreClose') : t('fMoreOpen');
   moreBtn.setAttribute('aria-expanded', fbExpanded?'true':'false');
@@ -1586,15 +1567,53 @@ function titlesFor(name){
   var k = map[name];
   return [t(k[0]), t(k[1])];
 }
-function showView(name){
+var VIEW_ORDER = ['overview','markets','products','promos','returns','quality'];
+
+/* Updates the nav highlight + topbar title/sub WITHOUT scrolling — used both by
+   clicking a nav item and by the scroll-spy as the page is scrolled past a section. */
+function setActiveNav(name){
   currentView = name;
-  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
-  document.getElementById('view-'+name).classList.add('active');
   document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('active', b.dataset.view===name); });
   var ts = titlesFor(name);
   document.getElementById('pagetitle').textContent = ts[0];
   document.getElementById('pagesub').textContent = ts[1];
 }
+
+/* Clicking a nav item scrolls the long page to that section; all sections are
+   always rendered and stacked, so this is a smooth scroll, not a tab switch. */
+function showView(name){
+  setActiveNav(name);
+  var target = document.getElementById('view-'+name);
+  if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---- sticky header height (topbar + filterbar), used for scroll-margin-top
+   and for the scroll-spy's "which section is current" line ---- */
+function updateStickyOffset(){
+  var topbar = document.querySelector('.topbar');
+  var filterbar = document.querySelector('.filterbar');
+  var h = (topbar? topbar.offsetHeight:0) + (filterbar? filterbar.offsetHeight:0) + 16;
+  document.documentElement.style.setProperty('--sticky-offset', h+'px');
+}
+
+/* ---- scroll-spy: as the user scrolls the continuous page, highlight whichever
+   section's top has passed the sticky-header line, without any click needed ---- */
+var spyTicking = false;
+function scrollSpyTick(){
+  spyTicking = false;
+  var offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-offset')) || 190) + 6;
+  var active = VIEW_ORDER[0];
+  for(var i=0;i<VIEW_ORDER.length;i++){
+    var el = document.getElementById('view-'+VIEW_ORDER[i]);
+    if(!el) continue;
+    if(el.getBoundingClientRect().top - offset <= 0){ active = VIEW_ORDER[i]; }
+  }
+  if(active !== currentView) setActiveNav(active);
+}
+window.addEventListener('scroll', function(){
+  if(!spyTicking){ spyTicking = true; requestAnimationFrame(scrollSpyTick); }
+}, {passive:true});
+
 document.getElementById('navlist').addEventListener('click', function(e){
   var btn = e.target.closest('button'); if(!btn) return;
   showView(btn.dataset.view);
@@ -1641,7 +1660,8 @@ function setLang(lang){
   renderFilterBar();
   renderQuality();
   applyFilters();
-  showView(currentView);
+  setActiveNav(currentView);
+  updateStickyOffset();
 }
 document.getElementById('langSwitch').addEventListener('click', function(e){
   var btn = e.target.closest('.lang-btn'); if(!btn) return;
@@ -1654,8 +1674,9 @@ function init(){
   renderFilterBar();
   renderQuality();
   applyFilters();
-  showView('overview');
-  window.addEventListener('resize', debounce(function(){ applyFilters(); }, 200));
+  setActiveNav('overview');
+  updateStickyOffset();
+  window.addEventListener('resize', debounce(function(){ applyFilters(); updateStickyOffset(); }, 200));
 }
 init();
 })();
