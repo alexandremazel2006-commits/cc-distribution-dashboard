@@ -135,7 +135,7 @@ a{ color:var(--accent); }
   font-size:11.5px; color:var(--ink-2); background:var(--surface); border:1px solid var(--border);
   padding:6px 11px; border-radius:20px; display:flex; align-items:center; gap:6px;
 }
-.side-controls{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+.side-controls{ display:flex; flex-direction:row; align-items:center; gap:8px; }
 .lang-switch{
   display:flex; align-items:center; border:1px solid var(--border); border-radius:20px; padding:3px; background:var(--surface); gap:2px;
 }
@@ -247,6 +247,15 @@ a{ color:var(--accent); }
 
 .section-title{ font-size:20px; font-weight:800; margin:2px 0 4px; font-family:"Archivo",sans-serif; }
 .section-lede{ font-size:13px; color:var(--ink-2); max-width:62ch; margin-bottom:18px; }
+
+.insight{
+  display:flex; align-items:flex-start; gap:10px;
+  background:var(--accent-wash); border-radius:10px;
+  padding:12px 16px; margin-bottom:18px; max-width:78ch;
+}
+.insight svg{ width:18px; height:18px; flex:0 0 auto; margin-top:1px; color:var(--accent); }
+.insight p{ margin:0; font-size:12.5px; line-height:1.55; color:var(--ink-2); }
+.insight p b{ color:var(--ink); font-weight:700; }
 
 /* legend */
 .legend{ display:flex; flex-wrap:wrap; gap:12px 16px; margin-bottom:12px; }
@@ -438,6 +447,7 @@ footer.credits a{ color:var(--ink-2); }
 
       <!-- ===================== OVERVIEW ===================== -->
       <section class="view active" id="view-overview">
+        <div class="insight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><p id="ovInsight">Accessories and services are 14% of revenue but 56% of margin.</p></div>
         <div class="grid g-kpi" id="kpiRow" style="margin-bottom:16px;"></div>
 
         <div class="grid g-main-side" style="margin-bottom:14px;">
@@ -471,6 +481,7 @@ footer.credits a{ color:var(--ink-2); }
       <section class="view" id="view-markets">
         <div class="section-title" id="mktSectionTitle">Six markets, four ERPs</div>
         <p class="section-lede" id="mktSectionLede">Baltics &amp; Germany billed in EUR, Poland in PLN, Czechia in CZK &mdash; and Germany VAT-inclusive while the others are ex-VAT. Everything below is normalized to net EUR, comparable market to market.</p>
+        <div class="insight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><p id="mktInsight">Germany and Czechia post the weakest margins despite mid-pack revenue.</p></div>
 
         <div class="card" style="margin-bottom:14px;">
           <div class="card-head"><h3 id="mktLineTitle">Monthly trend by market</h3><span class="hint" id="mktLineHint">click the legend to isolate a market</span></div>
@@ -507,6 +518,7 @@ footer.credits a{ color:var(--ink-2); }
       <section class="view" id="view-products">
         <div class="section-title" id="prodSectionTitle">Families &amp; SKUs</div>
         <p class="section-lede" id="prodSectionLede">27 SKUs from the Mac line to silicone cases. Margin follows the product family, not revenue: accessories and services weigh little in revenue but carry most of the margin.</p>
+        <div class="insight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><p id="prodInsight">7 of 27 SKUs are in the red, all flagged legacy.</p></div>
 
         <div class="grid g-2" style="margin-bottom:14px;">
           <div class="card">
@@ -537,6 +549,7 @@ footer.credits a{ color:var(--ink-2); }
       <section class="view" id="view-promos">
         <div class="section-title" id="promoSectionTitle">Promotions &amp; campaigns</div>
         <p class="section-lede" id="promoSectionLede">13 promo codes, 7 tracked marketing campaigns. Every code was used within its validity window &mdash; but some circulated outside the markets targeted by the matching campaign (see note).</p>
+        <div class="insight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><p id="promoInsight">WELCOME10 is 12x cheaper per euro of revenue than CLEARANCE.</p></div>
 
         <div class="grid g-main-side" style="margin-bottom:14px;">
           <div class="card">
@@ -566,6 +579,7 @@ footer.credits a{ color:var(--ink-2); }
       <section class="view" id="view-returns">
         <div class="section-title" id="retSectionTitle">Returns</div>
         <p class="section-lede" id="retSectionLede">3,917 raw return lines &rarr; 107 exact duplicates removed &rarr; 3,810 real returns, one per unit. The return rate below is computed on the deduplicated data.</p>
+        <div class="insight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><p id="retInsight">Only damaged/faulty returns are true margin loss.</p></div>
 
         <div class="grid g-kpi" id="retKpiRow" style="margin-bottom:14px; grid-template-columns:repeat(4,1fr);"></div>
 
@@ -663,8 +677,10 @@ en: {
   kpiNetRevenue:'Net revenue (filtered)', kpiNetMargin:'Net margin', kpiAvgBasket:'Average basket',
   kpiReturnRateValue:'Return rate (value)', kpiReturnRateUnits:'Return rate (units)', kpiMarketsIncluded:'Markets included',
   dOrders:'{n} orders', dOfRevenue:'{p} of revenue', dUnitsSold:'{n} units sold', dReturned:'{v} returned', dUnits:'{n} units',
+  ovInsight:'Accessories and services are <b>14% of revenue but 56% of margin</b> — Mac and iPhone are the reverse, 63% of revenue for just 25% of margin. The next lever is attach-rate on accessories/services, not more Mac/iPhone volume.',
   mktSectionTitle:'Six markets, four ERPs',
   mktSectionLede:'Baltics & Germany billed in EUR, Poland in PLN, Czechia in CZK — and Germany VAT-inclusive while the others are ex-VAT. Everything below is normalized to net EUR, comparable market to market.',
+  mktInsight:'Germany and Czechia post the <b>weakest margins (12.6% and 12.8%)</b> despite mid-pack revenue — worth a pricing or cost-to-serve review there before growing spend, rather than pushing further into Poland or Lithuania, which are already both bigger and more profitable.',
   mktLineTitle:'Monthly trend by market', mktLineHint:'click the legend to isolate a market',
   mktTableTitle:'Market table', mktTableHint:'click a row for detail · includes losses',
   mktMixSegPrefix:'Segment mix', mktMixChPrefix:'Channel mix', mktMixReasonPrefix:'Return reasons',
@@ -673,12 +689,14 @@ en: {
   mktLossesNote:'<b>Losses</b> = total value refunded to customers. <b>Est. COGS lost</b> estimates the inventory cost forfeited on returns reported as “Damaged in transit” or “Faulty on arrival” — those units typically can’t be resold. Returns for other reasons (changed mind, wrong item, price found elsewhere, no reason given) are assumed recoverable through restocking: they reduce revenue but not necessarily margin.',
   prodSectionTitle:'Families & SKUs',
   prodSectionLede:'27 SKUs from the Mac line to silicone cases. Margin follows the product family, not revenue: accessories and services weigh little in revenue but carry most of the margin.',
+  prodInsight:'<b>7 of 27 SKUs are in the red</b> — every one of them flagged legacy in the product sheet — destroying €452K of margin on €6.64M of revenue (32% of the total). Repricing or discontinuing those 7 lines is the single biggest lever on this page.',
   famRevenueTitle:'Revenue by family', famRevenueHint:'% = margin on revenue · click to filter',
   famMarginTitle:'Margin by family', famMarginHint:'EUR, same order',
   topProductsTitle:'Top 12 SKUs by revenue',
   prodAllSkus:'All {n} SKUs', prodSearchResults:'{n} result(s) for “{q}”',
   promoSectionTitle:'Promotions & campaigns',
   promoSectionLede:'13 promo codes, 7 tracked marketing campaigns. Every code was used within its validity window — but some circulated outside the markets targeted by the matching campaign (see note).',
+  promoInsight:'<b>WELCOME10 costs €0.03</b> per €1 of revenue it drives vs <b>€0.33 for CLEARANCE</b> — 12× more efficient. Back-to-School\'s own-code ROAS has never topped 0.40× and just dipped in 2024 even as spend grew fastest: freeze further increases until a holdout test proves incremental lift.',
   promoRevenueTitle:'Revenue by promo code', promoRevenueHintPrefix:'click to filter · no promo:',
   promoDiscountTitle:'Discount given', promoDiscountHint:'net EUR, cumulative',
   campTitle:'Spend vs attributed revenue — targeted campaigns', campHint:'ROAS = attributed revenue / spend',
@@ -687,6 +705,7 @@ en: {
   promoTableTitle:'Promo code table',
   retSectionTitle:'Returns',
   retSectionLede:'3,917 raw return lines → 107 exact duplicates removed → 3,810 real returns, one per unit. The return rate below is computed on the deduplicated data.',
+  retInsight:'Only <b>"Damaged in transit" and "Faulty on arrival"</b> returns are true margin loss (~€399K of unrecoverable COGS) — everything else (changed mind, wrong item, price elsewhere) can come back through restocking. Loss-prevention effort belongs in carrier handling and inbound QA, not the return policy.',
   retLineTitle:'Returned value by month',
   retByMarketTitle:'Return rate by market', retByMarketHint:'% value',
   retByReasonTitle:'By reason', retByFamilyTitle:'By product family',
@@ -725,8 +744,10 @@ lv: {
   kpiNetRevenue:'Neto apgrozījums (filtrēts)', kpiNetMargin:'Neto peļņa', kpiAvgBasket:'Vidējais grozs',
   kpiReturnRateValue:'Atgriešanas līmenis (vērtība)', kpiReturnRateUnits:'Atgriešanas līmenis (vienības)', kpiMarketsIncluded:'Iekļautie tirgi',
   dOrders:'{n} pasūtījumi', dOfRevenue:'{p} no apgrozījuma', dUnitsSold:'{n} pārdotas vienības', dReturned:'{v} atgriezts', dUnits:'{n} vienības',
+  ovInsight:'Piederumi un pakalpojumi veido <b>14% no apgrozījuma, bet 56% no peļņas</b> — Mac un iPhone ir pretēji: 63% no apgrozījuma, bet tikai 25% no peļņas. Nākamais solis ir piederumu/pakalpojumu piesaistes līmenis, nevis lielāks Mac/iPhone apjoms.',
   mktSectionTitle:'Seši tirgi, četras ERP sistēmas',
   mktSectionLede:'Baltija un Vācija rēķinus izraksta EUR, Polija — PLN, Čehija — CZK; un Vācijas cenas ir ar PVN, kamēr pārējās — bez. Viss turpmāk ir normalizēts uz neto EUR, lai tirgus būtu salīdzināms ar tirgu.',
+  mktInsight:'Vācijai un Čehijai ir <b>vājākā peļņas norma (attiecīgi 12,6% un 12,8%)</b>, lai gan apgrozījums ir vidējs — tur vērts pārskatīt cenas vai apkalpošanas izmaksas, pirms palielināt tēriņus, nevis virzīties uz Poliju vai Lietuvu, kas jau ir gan lielākas, gan rentablākas.',
   mktLineTitle:'Ikmēneša tendence pēc tirgus', mktLineHint:'noklikšķiniet uz leģendas, lai izolētu tirgu',
   mktTableTitle:'Tirgu tabula', mktTableHint:'noklikšķiniet uz rindas detaļām · ietver zaudējumus',
   mktMixSegPrefix:'Segmentu sadalījums', mktMixChPrefix:'Kanālu sadalījums', mktMixReasonPrefix:'Atgriešanas iemesli',
@@ -735,12 +756,14 @@ lv: {
   mktLossesNote:'<b>Zaudējumi</b> = kopējā klientiem atmaksātā vērtība. <b>Aplēstās zaudētās izmaksas</b> novērtē preču pašizmaksu, kas zaudēta atgriešanām ar iemeslu “Bojāts pārvadāšanā” vai “Defekts saņemot” — šīs vienības parasti nevar pārdot atkārtoti. Citu iemeslu atgriešanas (pārdomāšana, nepareiza prece, lētāka cena citur, iemesls nav norādīts) uzskatāmas par atgūstamām, atkārtoti izliekot preces pārdošanā: tās samazina apgrozījumu, bet ne obligāti peļņu.',
   prodSectionTitle:'Produktu grupas un SKU',
   prodSectionLede:'27 SKU no Mac līnijas līdz silikona vāciņiem. Peļņa seko produktu grupai, nevis apgrozījumam: piederumi un pakalpojumi apgrozījumā sver maz, bet nodrošina lielāko daļu no peļņas.',
+  prodInsight:'<b>7 no 27 SKU strādā ar zaudējumiem</b> — visi atzīmēti kā novecojuši (legacy) — iznīcinot €452K peļņas pie €6,64M apgrozījuma (32% no kopējā). Šo 7 preču pārcenošana vai izņemšana no sortimenta ir šīs lapas lielākā svira.',
   famRevenueTitle:'Apgrozījums pēc grupas', famRevenueHint:'% = peļņa no apgrozījuma · noklikšķiniet, lai filtrētu',
   famMarginTitle:'Peļņa pēc grupas', famMarginHint:'EUR, tā pati kārtība',
   topProductsTitle:'12 populārākie SKU pēc apgrozījuma',
   prodAllSkus:'Visi {n} SKU', prodSearchResults:'{n} rezultāts(i) vaicājumam “{q}”',
   promoSectionTitle:'Akcijas un kampaņas',
   promoSectionLede:'13 akciju kodi, 7 izsekotas mārketinga kampaņas. Katrs kods izmantots savā derīguma periodā — taču daļi cirkulēja ārpus atbilstošās kampaņas mērķa tirgiem (skat. piezīmi).',
+  promoInsight:'<b>WELCOME10 maksā €0,03</b> par katru piesaistīto apgrozījuma eiro, salīdzinot ar <b>€0,33 kodam CLEARANCE</b> — 12× efektīvāk. Back-to-School kampaņas paša koda ROAS nekad nav pārsniedzis 0,40×, un 2024. gadā pirmo reizi samazinājās, lai gan tēriņi auga visstraujāk: iesaldēt turpmāku pieaugumu, kamēr kontrolgrupas tests neapstiprina reālu ietekmi.',
   promoRevenueTitle:'Apgrozījums pēc akcijas koda', promoRevenueHintPrefix:'noklikšķiniet, lai filtrētu · bez akcijas:',
   promoDiscountTitle:'Piešķirtā atlaide', promoDiscountHint:'neto EUR, kumulatīvi',
   campTitle:'Izdevumi pret attiecināto apgrozījumu — mērķa kampaņas', campHint:'ROAS = attiecinātais apgrozījums / izdevumi',
@@ -749,6 +772,7 @@ lv: {
   promoTableTitle:'Akciju kodu tabula',
   retSectionTitle:'Atgriešana',
   retSectionLede:'3917 izejas atgriešanas rindas → 107 precīzi dublikāti noņemti → 3810 reālas atgriešanas, viena par vienību. Atgriešanas līmenis zemāk aprēķināts pēc datiem bez dublikātiem.',
+  retInsight:'Tikai atgriešanas ar iemeslu <b>"Bojāts pārvadāšanā"</b> un <b>"Defekts saņemot"</b> ir reāls peļņas zaudējums (~€399K neatgūstamu preču izmaksu) — pārējais (pārdomāšana, nepareiza prece, lētāk citur) ir atgūstams, atkārtoti izliekot preces pārdošanā. Zaudējumu novēršanas pūles jāvirza uz pārvadātāju darbu un ienākošo kvalitātes kontroli, nevis uz atgriešanas politiku.',
   retLineTitle:'Atgrieztā vērtība pēc mēneša',
   retByMarketTitle:'Atgriešanas līmenis pēc tirgus', retByMarketHint:'% vērtība',
   retByReasonTitle:'Pēc iemesla', retByFamilyTitle:'Pēc produktu grupas',
@@ -1698,6 +1722,9 @@ function applyStaticText(){
   document.getElementById('fResetBtn').textContent = t('fReset');
   document.getElementById('prodSearch').setAttribute('placeholder', t('prodSearchPlaceholder'));
   document.getElementById('footerCredits').innerHTML = t('footerCredits');
+  ['ovInsight','mktInsight','prodInsight','promoInsight','retInsight'].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.innerHTML = t(id);
+  });
   document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===LANG); });
   document.documentElement.setAttribute('lang', LANG);
 }
