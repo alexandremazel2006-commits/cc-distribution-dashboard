@@ -193,8 +193,22 @@ a{ color:var(--accent); }
 .range-slider input[type="range"]:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--accent); outline-offset:2px; }
 
 .content{ padding:22px 28px 64px; max-width:1280px; }
-.view{ display:block; scroll-margin-top:var(--sticky-offset, 190px); padding-bottom:36px; margin-bottom:14px; border-bottom:1px solid var(--border); }
-.view:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.view{
+  display:block; position:relative; scroll-margin-top:var(--sticky-offset, 190px);
+  padding-bottom:44px; margin-bottom:20px;
+  opacity:0; transform:translateY(14px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.view:last-child{ margin-bottom:0; padding-bottom:0; }
+.view:not(:last-child)::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:1px;
+  background:linear-gradient(to right, transparent, var(--border) 15%, var(--border) 85%, transparent);
+}
+.view.revealed{ opacity:1; transform:none; }
+#view-overview{ opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce){
+  .view{ opacity:1 !important; transform:none !important; transition:none !important; }
+}
 
 /* ============ Primitives ============ */
 .grid{ display:grid; gap:14px; }
@@ -1668,6 +1682,27 @@ document.getElementById('langSwitch').addEventListener('click', function(e){
   setLang(btn.dataset.lang);
 });
 
+/* Very light fade-in as each section is scrolled into view (Overview is
+   already on screen at load, so it's excluded and shown immediately). */
+function setupScrollReveal(){
+  var toReveal = Array.prototype.slice.call(document.querySelectorAll('.view')).filter(function(v){
+    return v.id !== 'view-overview';
+  });
+  if(!('IntersectionObserver' in window)){
+    toReveal.forEach(function(v){ v.classList.add('revealed'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('revealed');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {rootMargin:'0px 0px -10% 0px', threshold:0.08});
+  toReveal.forEach(function(v){ io.observe(v); });
+}
+
 function init(){
   document.getElementById('topRange').textContent = DATA.date_min+' → '+DATA.date_max;
   applyStaticText();
@@ -1676,6 +1711,7 @@ function init(){
   applyFilters();
   setActiveNav('overview');
   updateStickyOffset();
+  setupScrollReveal();
   window.addEventListener('resize', debounce(function(){ applyFilters(); updateStickyOffset(); }, 200));
 }
 init();
